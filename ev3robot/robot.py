@@ -10,7 +10,7 @@ class Robot:
         self.timeout = 0.5
         self.strategy = strategy
 
-    def invoke(self):
+    def _invoke(self):
 
         while True:
 
@@ -24,4 +24,4 @@ class Robot:
 
 
     def run(self):
-        threading.Thread(target=self.invoke).start()
+        threading.Thread(target=self._invoke).start()
