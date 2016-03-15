@@ -62,7 +62,7 @@ target/
 .ipynb_checkpoints
 
 #idea
-**/.idea/
+**/.idea/*
 
 
 # apple files
