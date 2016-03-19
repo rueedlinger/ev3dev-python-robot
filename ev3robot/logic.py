@@ -1,102 +1,86 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from ev3dev.auto import *
-import time
 
+class Controller:
 
-class Explorer:
+    _slow_speed = 30
+    _normal_speed = 60
+    _max_speed = 100
+    _default_distance = 600
 
-    def __init__(self):
-        self.m_right = Motor(OUTPUT_A)
-        self.m_left = Motor(OUTPUT_B)
+    def __init__(self, right_motor, left_motor, gyro_sensor):
 
-        self.us = UltrasonicSensor()
-        self.cs = ColorSensor()
-        self.gs = GyroSensor()
-        self.ts = TouchSensor()
+        self.right_motor = right_motor
+        self.left_motor = left_motor
+        self.gyro_sensor = gyro_sensor
+        self.motors = [right_motor, left_motor]
+        self.speed = 50
 
-        self.motors = [self.m_right, self.m_left]
-        self.normal_speed = 35
-        self.fast_speed = 60
+    def max_speed(self):
+        self.set_speed(self._max_speed)
 
-        Sound.speak('5, 4, 3, 2, 1, lets go!')
+    def slow_speed(self):
+        self.set_speed(self._slow_speed)
 
-    def turn(self):
-        angle = self.gs.value()
-        adjusted = angle + 90
-        self.stop()
-        self.forward()
-        self.m_left.run_direct()
-
-        while self.gs.value() <= adjusted:
-            time.sleep(0.5)
-
-        self.stop()
-        self.forward()
-        self.start()
-
-    def start(self):
-        for m in self.motors:
-            m.run_direct()
+    def normal_speed(self):
+        self.set_speed(self._normal_speed)
 
     def set_speed(self, speed):
         for m in self.motors:
             m.duty_cycle_sp = speed
 
-    def stop(self):
+    def brake(self):
+
         for m in self.motors:
             m.stop()
 
-    def forward(self):
-        self.set_speed(self.normal_speed)
-
     def backward(self):
-        self.set_speed(-self.normal_speed)
-        self.start()
-        time.sleep(1)
 
-    def adjust(self, angle, speed):
-        if angle > self.gs.value():
-            self.m_right.duty_cycle_sp = speed - 5
-            time.sleep(1)
-            self.m_right.duty_cycle_sp = speed
-        else:
-            self.m_left.duty_cycle_sp = speed - 5
-            time.sleep(1)
-            self.m_left.duty_cycle_sp = speed
+        for m in self.motors:
+            speed = m.duty_cycle_sp
 
-        self.set_speed(self.normal_speed)
-        self.start()
+            if speed > 0:
+                m.duty_cycle_sp = speed * -1
 
-    def loop(self):
+        for m in self.motors:
+            m.run_direct()
 
-        distance = self.us.value()
-        color_reflect = self.cs.value()
+    def backward(self, distance):
+        pos = self.right_motor.position + distance
 
-        if distance > 250:
-            self.set_speed(self.fast_speed)
-        else:
-            self.set_speed(self.normal_speed)
+        for m in self.motors:
+            m.run_to_rel_pos(position_sp=distance)
 
+        while self.right_motor.position >= pos:
+            pass
 
-        #adjust(angle, normal_speed)
+    def forward(self):
 
-        if self.ts.value() == 1:
-            self.stop()
-            self.backward()
-            self.turn()
+        for m in self.motors:
+            speed = m.duty_cycle_sp
 
+            if speed < 0:
+                m.duty_cycle_sp = speed * -1
 
-        if color_reflect <= 7:
-            self.stop()
-            self.backward()
-            self.turn()
+        for m in self.motors:
+            m.run_direct()
 
-        if distance <= 100:
-            # break
-            self.stop()
-            self.backward()
-            self.turn()
+    def forward(self, distance):
+        pos = self.right_motor.position + distance
 
+        for m in self.motors:
+            m.run_to_rel_pos(position_sp=distance)
+
+        while self.right_motor.position >= pos:
+            pass
+
+    def turn(self, degree=90):
+        self.left_motor.duty_cycle_sp *= -1
+        angle = self.gyro_sensor.value() + degree
+
+        while self.right_motor.position >= angle:
+            pass
+
+        self.left_motor.duty_cycle_sp *= -1
 
