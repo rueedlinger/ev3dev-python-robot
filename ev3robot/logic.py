@@ -10,7 +10,7 @@ class Controller:
     _normal_speed = 60
     _max_speed = 100
     _default_distance_cm = 600
-    _min_distance_cm = 5
+    _min_distance_cm = 8
 
     def __init__(self, right_motor, left_motor, gyro_sensor, ultrasonic_sensor):
 
@@ -90,9 +90,9 @@ class Controller:
 
     def turn(self, degree=90):
         self.right_motor.duty_cycle_sp *= -1
-        angle = self.gyro_sensor.value() + degree
+        angle = self.ultrasonic_sensor.value() + degree
 
-        while self.gyro_sensor.value() >= angle:
+        while self.ultrasonic_sensor.value() >= angle:
             pass
 
         self.right_motor.duty_cycle_sp *= -1
