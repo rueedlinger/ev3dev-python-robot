@@ -10,7 +10,7 @@ class Controller:
     _normal_speed = 60
     _max_speed = 100
     _default_distance_cm = 600
-    _min_distance_cm = 8
+    _min_distance_cm = 10
 
     def __init__(self, right_motor, left_motor, gyro_sensor, ultrasonic_sensor):
 
