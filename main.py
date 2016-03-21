@@ -26,7 +26,7 @@ if __name__ == "__main__":
                 self.forward()
 
 
-    controller = MyController(LargeMotor('outA'), LargeMotor('outB'), GyroSensor(), UltrasonicSensor())
+    controller = logic.MyController(LargeMotor('outA'), LargeMotor('outB'), GyroSensor(), UltrasonicSensor())
 
     robot = r.Robot(controller)
     robot.start()

@@ -89,13 +89,16 @@ class Controller:
             pass
 
     def turn(self, degree=90):
-        self.right_motor.duty_cycle_sp *= -1
+        self.left_motor.duty_cycle_sp *= -1
+
         angle = self.ultrasonic_sensor.value() + degree
+        print(angle)
+        print(self.ultrasonic_sensor.value())
 
         while self.ultrasonic_sensor.value() >= angle:
             pass
 
-        self.right_motor.duty_cycle_sp *= -1
+        self.left_motor.duty_cycle_sp *= -1
 
 class MyController(Controller):
 
