@@ -18,10 +18,10 @@ if __name__ == "__main__":
             self.brake()
 
         def loop(self):
-            self.normal_speed()
+            self.max_speed()
             self.forward()
             if self.should_stop():
-                self.slow_speed()
+                self._normal_speed()
                 self.turn()
 
 
