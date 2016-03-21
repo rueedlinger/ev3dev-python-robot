@@ -18,14 +18,12 @@ class Robot(threading.Thread):
 
         while self.running:
 
-            if hasattr(self.strategy, '__call__'):
-                self.strategy()
-            else:
-                self.strategy.loop()
+            self.strategy.loop()
 
             time.sleep(self.timeout)
 
 
     def kill(self):
         self.running = False
+        self.strategy.stop()
 

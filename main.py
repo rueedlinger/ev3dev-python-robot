@@ -14,10 +14,10 @@ if __name__ == "__main__":
 
     class MyController(logic.Controller):
 
-        timeout = 0.5
+        def stop(self):
+            self.brake()
 
         def loop(self):
-            time.sleep(self.timeout)
             self.normal_speed()
             self.forward()
             if self.should_stop():
