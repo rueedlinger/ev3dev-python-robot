@@ -19,7 +19,7 @@ if __name__ == "__main__":
         def loop(self):
             time.sleep(self.timeout)
             self.forward()
-            if(self.should_stop()):
+            if self.should_stop():
                 self.backward_distance(400)
                 self.turn()
                 self.forward()
