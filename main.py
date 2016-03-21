@@ -23,9 +23,9 @@ if __name__ == "__main__":
             if self.should_stop():
                 self.slow_speed()
                 self.backward_distance(200)
-                self.backward()
-                self.turn()
                 self.forward()
+                self.turn()
+
 
 
     controller = MyController(LargeMotor('outA'), LargeMotor('outB'), GyroSensor(), UltrasonicSensor())

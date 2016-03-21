@@ -92,6 +92,9 @@ class Controller:
 
     def turn(self, degree=90):
 
+        if self.right_motor.duty_cycle_sp == 0:
+            self.forward()
+
         # forward
         if self.right_motor.duty_cycle_sp >= 0:
 
