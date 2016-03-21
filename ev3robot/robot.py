@@ -7,7 +7,7 @@ class Robot(threading.Thread):
 
     def __init__(self, strategy):
         super(Robot, self).__init__()
-        self.timeout = 0.5
+        self.timeout = 0.1
         self.running = True
         self.strategy = strategy
 
