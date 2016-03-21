@@ -50,6 +50,9 @@ class Controller:
 
     def backward(self):
 
+        if self.right_motor.duty_cycle == 0:
+            self.normal_speed()
+
         for m in self.motors:
             speed = m.duty_cycle_sp
 
@@ -72,6 +75,9 @@ class Controller:
 
     def forward(self):
 
+        if self.right_motor.duty_cycle == 0:
+            self.normal_speed()
+
         for m in self.motors:
             speed = m.duty_cycle_sp
 
@@ -92,7 +98,7 @@ class Controller:
 
     def turn(self, degree=90):
 
-        if self.right_motor.duty_cycle_sp == 0:
+        if self.right_motor.duty_cycle == 0:
             self.forward()
 
         # forward
