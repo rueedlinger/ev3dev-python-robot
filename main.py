@@ -22,8 +22,6 @@ if __name__ == "__main__":
             self.forward()
             if self.should_stop():
                 self.slow_speed()
-                self.backward_distance(200)
-                self.forward()
                 self.turn()
 
 
