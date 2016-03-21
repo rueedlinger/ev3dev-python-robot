@@ -40,7 +40,7 @@ class Controller:
             m.stop()
 
     def distance(self):
-        return self.gyro_sensor.value() / 10.0
+        return self.ultrasonic_sensor.value() / 10.0
 
     def should_stop(self):
         if self.distance() <= self._min_distance_cm:
@@ -60,7 +60,7 @@ class Controller:
             m.run_direct()
 
     def backward_distance(self, distance):
-        pos = self.right_motor.position + distance
+        pos = self.right_motor.position - distance
 
         for m in self.motors:
             m.run_to_rel_pos(position_sp=distance)
@@ -92,7 +92,7 @@ class Controller:
         self.left_motor.duty_cycle_sp *= -1
         angle = self.gyro_sensor.value() + degree
 
-        while self.right_motor.position >= angle:
+        while self.gyro_sensor.value() >= angle:
             pass
 
         self.left_motor.duty_cycle_sp *= -1
