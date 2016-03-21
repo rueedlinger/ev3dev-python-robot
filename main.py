@@ -21,11 +21,12 @@ if __name__ == "__main__":
             self.normal_speed()
             self.forward()
             if self.should_stop():
+                self.backward()
                 self.turn()
                 self.forward()
 
 
-    controller = logic.MyController(LargeMotor('outA'), LargeMotor('outB'), GyroSensor(), UltrasonicSensor())
+    controller = MyController(LargeMotor('outA'), LargeMotor('outB'), GyroSensor(), UltrasonicSensor())
 
     robot = r.Robot(controller)
     robot.start()

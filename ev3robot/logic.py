@@ -112,15 +112,3 @@ class Controller:
 
             self.left_motor.duty_cycle_sp *= -1
 
-
-class MyController(Controller):
-
-        timeout = 0.5
-
-        def loop(self):
-            time.sleep(self.timeout)
-            self.forward()
-            if self.should_stop():
-                self.backward_distance(400)
-                self.turn()
-                self.forward()
