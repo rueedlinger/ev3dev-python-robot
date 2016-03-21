@@ -63,7 +63,7 @@ class Controller:
         pos = self.right_motor.position - distance
 
         for m in self.motors:
-            m.run_to_rel_pos(position_sp=pos)
+            m.run_to_rel_pos(position_sp=-distance)
 
         while self.right_motor.position >= pos:
             pass
