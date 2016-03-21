@@ -97,7 +97,6 @@ class Controller:
 
         self.left_motor.duty_cycle_sp *= -1
 
-
 class MyController(Controller):
 
         timeout = 0.5
