@@ -89,16 +89,29 @@ class Controller:
             pass
 
     def turn(self, degree=90):
-        self.right_motor.duty_cycle_sp *= -1
 
-        angle = self.gyro_sensor.value() + degree
-        print(angle)
-        print(self.gyro_sensor.value())
+        # forward
+        if self.right_motor.duty_cycle_sp >= 0:
 
-        while self.gyro_sensor.value() <= angle:
-            pass
+            self.right_motor.duty_cycle_sp *= -1
 
-        self.right_motor.duty_cycle_sp *= -1
+            angle = self.gyro_sensor.value() + degree
+
+            while self.gyro_sensor.value() <= angle:
+                pass
+
+            self.right_motor.duty_cycle_sp *= -1
+
+        else:
+            self.left_motor.duty_cycle_sp *= -1
+
+            angle = self.gyro_sensor.value() + degree
+
+            while self.gyro_sensor.value() <= angle:
+                pass
+
+            self.left_motor.duty_cycle_sp *= -1
+
 
 class MyController(Controller):
 
