@@ -7,13 +7,15 @@ class Controller:
     _slow_speed = 30
     _normal_speed = 60
     _max_speed = 100
-    _default_distance = 600
+    _default_distance_cm = 600
+    _min_distance_cm = 5
 
-    def __init__(self, right_motor, left_motor, gyro_sensor):
+    def __init__(self, right_motor, left_motor, gyro_sensor, ultrasonic_sensor):
 
         self.right_motor = right_motor
         self.left_motor = left_motor
         self.gyro_sensor = gyro_sensor
+        self.ultrasonic_sensor = ultrasonic_sensor
         self.motors = [right_motor, left_motor]
         self.speed = 50
 
@@ -35,6 +37,15 @@ class Controller:
         for m in self.motors:
             m.stop()
 
+    def distance(self):
+        return self.gyro_sensor.value() / 10.0
+
+    def should_stop(self):
+        if self.distance() <= self._min_distance_cm:
+            return True
+        else:
+            return False
+
     def backward(self):
 
         for m in self.motors:
@@ -46,7 +57,7 @@ class Controller:
         for m in self.motors:
             m.run_direct()
 
-    def backward(self, distance):
+    def backward_distance(self, distance):
         pos = self.right_motor.position + distance
 
         for m in self.motors:
@@ -66,7 +77,7 @@ class Controller:
         for m in self.motors:
             m.run_direct()
 
-    def forward(self, distance):
+    def forward_distance(self, distance):
         pos = self.right_motor.position + distance
 
         for m in self.motors:
@@ -83,4 +94,3 @@ class Controller:
             pass
 
         self.left_motor.duty_cycle_sp *= -1
-

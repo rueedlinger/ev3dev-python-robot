@@ -10,7 +10,6 @@ class Motor:
 
     def run_direct(self):
         self._running = True
-        print('run')
         pass
 
     def run_to_rel_pos(self, position_sp):
@@ -20,3 +19,19 @@ class Motor:
         self.duty_cycle_sp = 0
         self._running = False
 
+
+class UltrasonicSensor:
+
+    def __init__(self):
+        pass
+
+    def value(self):
+        return 100
+
+class GyroSensor:
+
+    def __init__(self):
+        pass
+
+    def value(self):
+        return 10

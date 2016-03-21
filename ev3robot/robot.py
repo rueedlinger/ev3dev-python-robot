@@ -3,15 +3,20 @@
 import threading
 import time
 
-class Robot:
+class Robot(threading.Thread):
 
     def __init__(self, strategy):
+        super(Robot, self).__init__()
         self.timeout = 0.5
+        self.running = True
         self.strategy = strategy
+
+    def run(self):
+        self._invoke()
 
     def _invoke(self):
 
-        while True:
+        while self.running:
 
             if hasattr(self.strategy, '__call__'):
                 self.strategy()
@@ -21,6 +26,6 @@ class Robot:
             time.sleep(self.timeout)
 
 
+    def kill(self):
+        self.running = False
 
-    def run(self):
-        threading.Thread(target=self._invoke).start()
