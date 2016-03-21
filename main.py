@@ -21,7 +21,7 @@ if __name__ == "__main__":
             self.max_speed()
             self.forward()
             if self.should_stop():
-                self._normal_speed()
+                self.normal_speed()
                 self.turn()
 
 
