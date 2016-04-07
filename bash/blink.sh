@@ -70,3 +70,16 @@ for i in `seq 1 5`;do
 done
 
 off
+
+for i in `seq 1 5`;do
+
+        echo 0 > /sys/class/leds/ev3\:left\:red\:ev3dev/brightness
+        echo 255 > /sys/class/leds/ev3\:right\:red\:ev3dev/brightness
+        sleep $timeout
+        echo 255 > /sys/class/leds/ev3\:left\:red\:ev3dev/brightness
+        echo 0 > /sys/class/leds/ev3\:right\:red\:ev3dev/brightness
+        sleep $timeout
+
+done
+
+off
