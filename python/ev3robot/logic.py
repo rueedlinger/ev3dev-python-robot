@@ -9,8 +9,6 @@ class Controller:
     _slow_speed = 30
     _normal_speed = 60
     _max_speed = 100
-    _default_distance_cm = 600
-    _min_distance_cm = 10
 
     def __init__(self, right_motor, left_motor, gyro_sensor, ultrasonic_sensor):
 
@@ -19,7 +17,13 @@ class Controller:
         self.gyro_sensor = gyro_sensor
         self.ultrasonic_sensor = ultrasonic_sensor
         self.motors = [right_motor, left_motor]
-        self.speed = 50
+
+        self._set_sensor_modes()
+
+    def _set_sensor_modes(self):
+
+        self.ultrasonic_sensor.mode = 'US-DIST-CM'
+        self.gyro_sensor.mode = 'GYRO-ANG'
 
     def max_speed(self):
         self.set_speed(self._max_speed)
@@ -39,11 +43,15 @@ class Controller:
         for m in self.motors:
             m.stop()
 
-    def distance(self):
-        return self.ultrasonic_sensor.value() / 10.0
+    def angle(self):
+        return self.gyro_sensor.value()
 
-    def should_stop(self):
-        if self.distance() <= self._min_distance_cm:
+    def distance(self):
+        return self.ultrasonic_sensor.value()
+
+    def has_obstacle(self, range=100):
+
+        if self.distance() <= range:
             return True
         else:
             return False
@@ -62,15 +70,10 @@ class Controller:
         for m in self.motors:
             m.run_direct()
 
-    def backward_distance(self, distance):
-        pos = self.right_motor.position - distance
+    def drive_distance(self, distance):
 
         for m in self.motors:
-            m.run_to_rel_pos(position_sp=-distance)
-
-        while self.right_motor.position >= pos:
-            pass
-
+            m.run_to_rel_pos(position_sp=distance)
 
 
     def forward(self):
@@ -87,14 +90,6 @@ class Controller:
         for m in self.motors:
             m.run_direct()
 
-    def forward_distance(self, distance):
-        pos = self.right_motor.position + distance
-
-        for m in self.motors:
-            m.run_to_rel_pos(position_sp=distance)
-
-        while self.right_motor.position <= pos:
-            pass
 
     def turn(self, degree=90):
 
