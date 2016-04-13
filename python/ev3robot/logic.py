@@ -3,7 +3,6 @@
 import time
 
 
-
 class Controller:
 
     _slow_speed = 30

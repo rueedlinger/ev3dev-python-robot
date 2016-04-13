@@ -1,12 +1,22 @@
-# ev3dev python code
+# Robot challenges (ev3dev python code)
 
-This are the ev3dev python examples which gives you a basic abstraction for
-a driving robot. The examples are for different challenges.
+The following ev3dev python examples will give you good start for
+a simple autonomous driving robot. The examples in this project are for different robot challenges like:
 
-The *ev3robot* module is a simple abstraction for a baisc robot. This module conatins simple
+- hide and seek
+- robot sumo
+- follow a line
+- avoid obstacles (or simple maze runner)
+
+
+## Get started
+All the code examples are based on a simple abtsratcion framework for ev3dev. You can use these examples to get started quickly. 
+We provide you in this project the *ev3robot* python module. This module is a simple abstraction for a  simple 
+autonomous driving robot. This module contains simple
 commands like turn, forward, backward, brake, etc.
 
 ```python
+
     from ev3dev.auto import *
 
     import python.ev3robot.logic as logic
@@ -29,6 +39,8 @@ commands like turn, forward, backward, brake, etc.
     robot = r.Robot(controller)
     robot.start()
 ```
+
+## Example code
 
 So there are the following basic robot examples for different challenges:
 
