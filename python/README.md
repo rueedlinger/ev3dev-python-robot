@@ -10,10 +10,13 @@ a simple autonomous driving robot. The examples in this project are for differen
 
 
 ## Get started
-All the code examples are based on a simple abtsratcion framework for ev3dev. You can use these examples to get started quickly. 
-We provide you in this project the *ev3robot* python module. This module is a simple abstraction for a  simple 
-autonomous driving robot. This module contains simple
+All the code examples are based on the ev3dev python module and you can use these examples to get started quickly 
+with a simple ev3 robot. To get started you can use the *ev3robot* python module. This module is a abstraction for a simple 
+autonomous driving robot. This module contains simple 
 commands like turn, forward, backward, brake, etc.
+
+The following code snippets shows how you can use the ev3robot module. Feel free to change and adapted the code to 
+your needs to compete in the challenges.
 
 ```python
 
