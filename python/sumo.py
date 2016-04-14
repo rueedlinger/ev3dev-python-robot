@@ -27,7 +27,7 @@ if __name__ == "__main__":
                 self.turn(degree=10)
 
             # 0 black -> 100 white
-            if self.ptc_color > self.color() + 10:
+            if self.color() + 10 < self.ptc_color:
                 self.turn(degree=90)
                 self.forward()
                 # drive for 1 sec
