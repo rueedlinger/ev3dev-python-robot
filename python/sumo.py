@@ -16,13 +16,13 @@ if __name__ == "__main__":
             self.ptc_color = self.color()
 
         def loop(self):
-            self.normal_speed()
 
-            if self.has_obstacle(range=200):
+            if self.has_obstacle(range=150):
                 self.forward()
             else:
                 self.brake()
                 self.turn(degree=10)
+                self.brake()
                 time.sleep(1)
 
             # 0 black -> 100 white
@@ -31,6 +31,8 @@ if __name__ == "__main__":
                 self.forward()
                 # drive for 1 sec
                 time.sleep(1)
+                self.turn(degree=90)
+                self.brake()
 
 
 
