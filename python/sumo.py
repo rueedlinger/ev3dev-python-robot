@@ -23,6 +23,7 @@ if __name__ == "__main__":
             else:
                 self.brake()
                 self.turn(degree=10)
+                time.sleep(1)
 
             # 0 black -> 100 white
             if self.color() + 10 < self.ptc_color:
