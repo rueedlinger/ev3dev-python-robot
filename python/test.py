@@ -10,7 +10,10 @@ if __name__ == "__main__":
     class TestController(logic.Controller):
 
         def setup(self):
-            self.ptc_color = self.color()
+            print('setup')
+
+        def teardown(self):
+            print('teardown')
 
         def loop(self):
 
@@ -22,7 +25,6 @@ if __name__ == "__main__":
             time.sleep(3)
             self.brake()
             time.sleep(3)
-
 
 
     controller = TestController(right_motor=LargeMotor('outA'), left_motor=LargeMotor('outB'),
