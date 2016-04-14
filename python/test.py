@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from ev3dev.auto import *
 
 import ev3robot.logic as logic
