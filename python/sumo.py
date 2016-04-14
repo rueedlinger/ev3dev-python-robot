@@ -23,17 +23,13 @@ if __name__ == "__main__":
                 self.brake()
                 self.turn(degree=10)
                 self.brake()
-                time.sleep(1)
+                time.sleep(0.5)
 
             # 0 black -> 100 white
             if self.color() + 10 < self.ptc_color:
                 self.backward()
-                # drive for 1 sec
                 time.sleep(3)
                 self.brake()
-                self.turn(degree=90)
-                self.brake()
-
 
 
     controller = SumoController(right_motor=LargeMotor('outA'), left_motor=LargeMotor('outB'),
