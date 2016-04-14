@@ -42,6 +42,7 @@ class Robot(threading.Thread):
             # method not implemented by strategy
             pass
 
+        
         # main loop
         while self.running:
             self.strategy.loop()

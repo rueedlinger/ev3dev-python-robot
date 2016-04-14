@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
 
     controller = SumoController(right_motor=LargeMotor('outA'), left_motor=LargeMotor('outB'),
-                                    gyro=GyroSensor(), ultrasonic=UltrasonicSensor())
+                                    gyro=GyroSensor(), ultrasonic=UltrasonicSensor(), color=ColorSensor())
 
     robot = r.Robot(controller)
     robot.start()
