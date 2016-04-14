@@ -26,6 +26,8 @@ if __name__ == "__main__":
             time.sleep(3)
             self.backward()
             time.sleep(3)
+            self.turn(45)
+            time.sleep(3)
             self.brake()
             time.sleep(3)
 
