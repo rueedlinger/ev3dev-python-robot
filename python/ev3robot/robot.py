@@ -30,7 +30,6 @@ class Robot(threading.Thread):
         the method Robot.kill() is called.
         """
 
-
         self._invoke()
 
     def _invoke(self):
@@ -47,16 +46,18 @@ class Robot(threading.Thread):
         while self.running:
             self.strategy.loop()
             time.sleep(self.timeout)
+            print('invoke: ' + self.running + '\n')
+
+        # stop motors
+        self.strategy.brake()
+        print('invoke: ' + self.running + '\n')
 
     def kill(self):
         """
         Sets the Robot.running to False, so that the thread which executes the strategy is terminated.
         """
         self.running = False
-
-        # stop motors
-        self.strategy.brake()
-
+        print('kill: ' + self.running + '\n')
         try:
             # teardown robot
             self.strategy.teardown()
