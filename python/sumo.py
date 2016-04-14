@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
         def loop(self):
 
-            if self.has_obstacle(range=150):
+            if self.has_obstacle(range=300):
                 self.forward()
             else:
                 self.brake()
