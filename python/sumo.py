@@ -17,8 +17,6 @@ if __name__ == "__main__":
 
         def loop(self):
             self.normal_speed()
-            self.turn(degree=90)
-            self.brake()
 
             if self.has_obstacle(range=200):
                 self.forward()
