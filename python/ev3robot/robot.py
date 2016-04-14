@@ -43,22 +43,19 @@ class Robot(threading.Thread):
             pass
 
         # main loop
-        print('running')
         while self.running:
             self.strategy.loop()
             time.sleep(self.timeout)
 
-
         # stop motors
         self.strategy.brake()
-        print('brake')
 
     def kill(self):
         """
         Sets the Robot.running to False, so that the thread which executes the strategy is terminated.
         """
         self.running = False
-        print('kill')
+
         try:
             # teardown robot
             self.strategy.teardown()

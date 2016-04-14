@@ -26,11 +26,12 @@ if __name__ == "__main__":
     try:
         # wait for input
         name = raw_input("Press Enter to exit: ")
-        print('end')
     except (KeyboardInterrupt, SystemExit):
-        # stop robot
-        robot.kill()
-        print('end end')
+        pass
+
+    # stop robot
+    robot.kill()
+
 
 
 
