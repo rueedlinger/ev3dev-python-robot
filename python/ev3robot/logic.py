@@ -9,20 +9,26 @@ class Controller:
     _normal_speed = 60
     _max_speed = 100
 
-    def __init__(self, right_motor, left_motor, gyro_sensor, ultrasonic_sensor):
+    def __init__(self, right_motor, left_motor, gyro, ultrasonic, color=None):
 
         self.right_motor = right_motor
         self.left_motor = left_motor
-        self.gyro_sensor = gyro_sensor
-        self.ultrasonic_sensor = ultrasonic_sensor
+        self.gyro_sensor = gyro
+        self.ultrasonic_sensor = ultrasonic
+        self.color_sensor = color
         self.motors = [right_motor, left_motor]
 
         self._set_sensor_modes()
+
+
 
     def _set_sensor_modes(self):
 
         self.ultrasonic_sensor.mode = 'US-DIST-CM'
         self.gyro_sensor.mode = 'GYRO-ANG'
+
+        if self.color_sensor:
+            self.color_sensor.mode = 'COL-REFLECT'
 
     def max_speed(self):
         self.set_speed(self._max_speed)
@@ -44,6 +50,9 @@ class Controller:
 
     def angle(self):
         return self.gyro_sensor.value()
+
+    def color(self):
+        return self.color_sensor.value()
 
     def distance(self):
         return self.ultrasonic_sensor.value()
@@ -69,12 +78,6 @@ class Controller:
         for m in self.motors:
             m.run_direct()
 
-    def drive_distance(self, distance):
-
-        for m in self.motors:
-            m.run_to_rel_pos(position_sp=distance)
-
-
     def forward(self):
 
         if self.right_motor.duty_cycle == 0:
@@ -88,7 +91,6 @@ class Controller:
 
         for m in self.motors:
             m.run_direct()
-
 
     def turn(self, degree=90):
 

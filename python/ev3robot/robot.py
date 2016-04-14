@@ -29,10 +29,21 @@ class Robot(threading.Thread):
         The provided strategy is executed in a new thread and runs in a endless loop until
         the method Robot.kill() is called.
         """
+
+
         self._invoke()
 
     def _invoke(self):
 
+        try:
+            # setup robot
+            self.strategy.setup()
+
+        except AttributeError:
+            # method not implemented by strategy
+            pass
+
+        # main loop
         while self.running:
             self.strategy.loop()
             time.sleep(self.timeout)
@@ -42,5 +53,14 @@ class Robot(threading.Thread):
         Sets the Robot.running to False, so that the thread which executes the strategy is terminated.
         """
         self.running = False
-        self.strategy.stop()
+
+        # stop motors
+        self.strategy.brake()
+
+        try:
+            # teardown robot
+            self.strategy.teardown()
+        except AttributeError:
+            # method not implemented by strategy
+            pass
 
