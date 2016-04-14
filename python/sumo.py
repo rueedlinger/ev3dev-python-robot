@@ -27,10 +27,10 @@ if __name__ == "__main__":
 
             # 0 black -> 100 white
             if self.color() + 10 < self.ptc_color:
-                self.turn(degree=90)
-                self.forward()
+                self.backward()
                 # drive for 1 sec
-                time.sleep(1)
+                time.sleep(3)
+                self.brake()
                 self.turn(degree=90)
                 self.brake()
 
