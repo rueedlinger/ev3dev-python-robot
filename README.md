@@ -1,10 +1,11 @@
-# ev3dev-code
+# Robot challenges
+Welcome to the EV3 robot challenge starter project. This project contains [ev3dev](http://www.ev3dev.org/) code snippets 
+for the EV3 intelligent brick. You can use these examples to get started in the robot challenges.
 
-This project contains [ev3dev](http://www.ev3dev.org/) code snippets for the EV3 Intelligent Brick.
-
-All examples tested with the _ev3-ev3dev-jessie-2015-12-30_ image.
 - *bash* - ev3dev bash scripts
-- *python* - ev3dev python scripts
+- *python* - the python module ev3robot, a simple framework to compete in teh robot challenges.
 
 
+## The challenges
+tbd
 
