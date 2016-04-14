@@ -45,5 +45,7 @@ if __name__ == "__main__":
         # wait for input
         name = raw_input("Press Enter to exit: ")
     except (KeyboardInterrupt, SystemExit):
-        # stop robot
-        robot.kill()
+        pass
+
+    # stop robot
+    robot.kill()
