@@ -43,10 +43,11 @@ class Robot(threading.Thread):
             pass
 
         # main loop
+        print('running')
         while self.running:
             self.strategy.loop()
             time.sleep(self.timeout)
-            print('running')
+
 
         # stop motors
         self.strategy.brake()
