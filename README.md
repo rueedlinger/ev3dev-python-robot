@@ -8,7 +8,7 @@ There are three main challenges. Each challenges has several rounds (sprints). A
 improve their robot. 
 
 ## Main rules
-First rule of robo challenge, have fun and learn how to code in team and improve your code in several iterations. 
+First rule of robo challenge, have fun and learn how to code in a team and improve your code in several iterations. 
 
 Now the main rules:  
 - The kits are provided and no additional kits or bricks are allowed.
