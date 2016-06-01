@@ -47,6 +47,13 @@ if __name__ == "__main__":
 ```
 
 ## The API
+The API contains the following classes:
+- __controller__ - the main API to control the self driving robot.
+- __robot__ - The robot class is responsible for starting the main logic of the robot in an new thread
+- __strategy_XYZ__ - your own class which inherits from the controller class and implents the _loop_ method.
+
+### Class controller
+
 - __init__(right_motor, left_motor, gyro, ultrasonic, color=None):
 - max_speed
 - slow_speed
@@ -60,6 +67,11 @@ if __name__ == "__main__":
 - backward
 - forward
 - turn(degree=90)
+
+### Class robot
+- __init__(self, strategy, timeout=0.1):
+- run
+- kill
 
 
 ## Example code
