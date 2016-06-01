@@ -44,4 +44,4 @@ if __name__ == "__main__":
 ```
 
 ## Example code
-For more examples have a look at the [examples](tree/master/examples) directory.
+For more examples have a look at the [examples](examples) directory.
