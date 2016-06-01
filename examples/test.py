@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import time
+
 from ev3dev.auto import *
 
 import ev3robot.logic as logic
 import ev3robot.robot as r
-
-import time
 
 if __name__ == "__main__":
 

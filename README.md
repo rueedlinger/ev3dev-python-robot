@@ -1,29 +1,51 @@
-# Robo Challenge Hackathon
-Welcome to the EV3 __Robo Challenge Hackathon__ starter project. This project contains [ev3dev](http://www.ev3dev.org/) code snippets 
-for the EV3 intelligent brick. You can use these examples to get started in the robo challenge hackathon.
+# ev3dev python robot API
+This project contains a simple python robot API for the EV3 intelligent brick. The API uses 
+the [ev3dev](http://www.ev3dev.org/) python module. You can use these examples to get started with 
+your ev3dev powered self driving robot.
 
-## Course of action (36 hours)
-The robot challenge hackathon is a 36 hours hackathon, in which different teams compete with their EV3 robots against each other. 
-There are three main challenges. Each challenges has several rounds (sprints). After each round the teams have some time to 
-improve their robot. 
+## Get started
+In the following code snippet you can see how to use the ev3robot module. Feel free to change and adapted the code to 
+your needs to compete in the robot challenges.
 
-## Main rules
-First rule of robo challenge, have fun and learn how to code in a team and improve your code in several iterations. 
+```python
 
-Now the main rules:  
-- The kits are provided and no additional kits or bricks are allowed.
-- During the competition no connection to the EV3 brick (wifi, bluetooth, etc.) is allowed.
-- If the brick or algorithm crashes, no restart or manual interaction is allowed.
-- For every challenge the teams get points, depending on the challenge the number of points can change. 
-- At the end the team with the most points win. 
-- If some teams have the same amount of points. The Teams compete in a final challenge and 
-the team with the most points wins. The final challenge is chosen by lot.
-- Additional rules apply for the different challenges.
+from ev3dev.auto import *
 
+import ev3robot.logic as logic
+import ev3robot.robot as r
 
+if __name__ == "__main__":
 
-## The challenges
-tbd
+    class ExplorerController(logic.Controller):
 
-## Code snippets
-tbd
+        def loop(self):
+            self.max_speed()
+            self.forward()
+            if self.has_obstacle():
+                self.normal_speed()
+                self.turn()
+
+    controller = ExplorerController(right_motor=LargeMotor('outA'), left_motor=LargeMotor('outB'),
+                                    gyro=GyroSensor(), ultrasonic=UltrasonicSensor())
+
+    robot = r.Robot(controller)
+    robot.start()
+
+    try:
+        # wait for input
+        name = raw_input("Press Enter to exit: ")
+    except (KeyboardInterrupt, SystemExit):
+        pass
+
+    # stop robot
+    robot.kill()
+
+   
+```
+
+## Example code
+
+We provide you some of the basic implementaion for the following robot challenges:
+
+- *explorer.py* a simple obstacle avoiding robot or simple maze runner.
+- ..
