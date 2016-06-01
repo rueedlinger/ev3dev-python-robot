@@ -50,7 +50,7 @@ if __name__ == "__main__":
 The API contains the following classes:
 - __controller__ - the main API to control the self driving robot.
 - __robot__ - The robot class is responsible for starting the main logic of the robot in an new thread
-- __strategy_XYZ__ - your own class which inherits from the controller class and implents the _loop_ method.
+- __strategy_XYZ__ - your own class which inherits from the controller class and implements the _loop_ method.
 
 ### Class controller
 
