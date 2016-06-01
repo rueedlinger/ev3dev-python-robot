@@ -44,8 +44,4 @@ if __name__ == "__main__":
 ```
 
 ## Example code
-
-We provide you some of the basic implementaion for the following robot challenges:
-
-- *explorer.py* a simple obstacle avoiding robot or simple maze runner.
-- ..
+For more examples have a look at the [examples](tree/master/examples) directory.
