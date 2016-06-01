@@ -3,6 +3,21 @@ This project contains a simple python robot API for the EV3 intelligent brick. T
 the [ev3dev](http://www.ev3dev.org/) python module. You can use these examples to get started with 
 your ev3dev powered self driving robot.
 
+## The API
+- max_speed
+- slow_speed
+- normal_speed
+- set_speed(speed)
+- brake
+- angle
+- color
+- distance
+- has_obstacle(range=100)
+- backward
+- forward
+- turn(degree=90)
+
+
 ## Get started
 In the following code snippet you can see how to use the ev3robot module. Feel free to change and adapted the code to 
 your needs to compete in the robot challenges.
