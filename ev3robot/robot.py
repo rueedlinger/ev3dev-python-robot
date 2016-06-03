@@ -57,7 +57,9 @@ class Robot(threading.Thread):
         """
         Sets the Robot.running to False, so that the thread which executes the strategy is terminated.
         """
+
         self.running = False
+        print('kill')
 
         try:
             # teardown robot
