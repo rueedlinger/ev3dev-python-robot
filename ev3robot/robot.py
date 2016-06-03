@@ -49,7 +49,7 @@ class Robot(threading.Thread):
             self.strategy.loop()
             time.sleep(self.timeout)
 
-
+        print(self.running)
         # stop motors
         self.strategy.brake()
 
