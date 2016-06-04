@@ -44,7 +44,7 @@ your needs to compete in the robot challenges.
 
 ## Example code
 
-We provide you some of the basic implementaion for the following robot challenges:
+We provide you some of the basic implementation for the following robot challenges:
 
 - *explorer.py* a simple obstacle avoiding robot or simple maze runner.
 - ..

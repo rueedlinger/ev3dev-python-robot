@@ -10,6 +10,9 @@ if __name__ == "__main__":
 
     class ExplorerController(logic.Controller):
 
+        def teardown(self):
+            print('teardown')
+
         def loop(self):
             self.max_speed()
             self.forward()
