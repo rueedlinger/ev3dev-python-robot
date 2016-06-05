@@ -38,14 +38,12 @@ class Robot(threading.Thread):
             # setup robot
             self.strategy.setup()
 
-        except AttributeError:
+        except Exception:
             # method not implemented by strategy
             pass
 
-        
         # main loop
         while self.running:
-            print(self.running)
             self.strategy.loop()
             time.sleep(self.timeout)
 
@@ -59,12 +57,11 @@ class Robot(threading.Thread):
         """
 
         self.running = False
-        print('kill')
 
         try:
             # teardown robot
             self.strategy.teardown()
-        except AttributeError:
+        except Exception:
             # method not implemented by strategy
             pass
 
