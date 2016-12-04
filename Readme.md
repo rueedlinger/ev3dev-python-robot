@@ -5,7 +5,7 @@ your ev3dev self-driving robot.
 
 
 ## Get started
-Build the Robot as described in my Blog Post 'Programming LEGO MINDSTORMS EV3 with Python and ev3dev' http://to.predict.ch/hacking/2016/12/02/lego-mindstorms-with-python.html
+Build the Robot as described in my Blog Post _'Programming LEGO MINDSTORMS EV3 with Python and ev3dev'_ http://to.predict.ch/hacking/2016/12/02/lego-mindstorms-with-python.html
 
 - Right motor (EV3 large motor) -> Output pin A
 - Left motor (EV3 large motor) -> Output pin B
