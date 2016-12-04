@@ -35,6 +35,7 @@ def main():
 
             logging.debug('color value: %s' % str(robot.color_sensor.value()))
             logging.debug('ultrasonic value: %s' % str(robot.ultrasonic_sensor.value()))
+            logging.debug('gyro value: %s' % str(robot.gyro_sensor.value()))
             logging.debug('motor positions (r, l): %s, %s' % (str(robot.right_motor.position),
                                                               str(robot.left_motor.position)))
             logging.debug('motor speed (r, l): %s, %s' % (str(robot.right_motor.speed),
@@ -46,7 +47,6 @@ def main():
                 robot.forward(DEFAULT_SPEED * 0.5)
                 robot.turn(randint(90, 180))
                 robot.forward(DEFAULT_SPEED)
-
 
     # doing a cleanup action just before program ends
     # handle ctr+c and system exit
