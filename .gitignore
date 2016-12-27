@@ -25,7 +25,7 @@ var/
 *.egg
 
 # PyInstaller
-#  Usually these files are written by a plain-ev3dev-robot script from a template
+#  Usually these files are written by a plain_ev3dev_robot script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec

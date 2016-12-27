@@ -6,6 +6,7 @@ import logging
 
 class Robot:
 
+
     def __init__(self):
 
         logging.debug("Setting up...")
@@ -25,23 +26,37 @@ class Robot:
         self.right_motor = right_motor
         self.left_motor = left_motor
 
-        color_sensor = ev3.ColorSensor()
-        logging.info("color sensor connected: %s" % str(color_sensor.connected))
-        color_sensor.mode = 'COL-REFLECT'
-
-        ultrasonic_sensor = ev3.UltrasonicSensor()
-        logging.info("ultrasonic sensor connected: %s" % str(ultrasonic_sensor.connected))
-        ultrasonic_sensor.mode = 'US-DIST-CM'
-
         gyro_sensor = ev3.GyroSensor()
         logging.info("gyro sensor connected: %s" % str(gyro_sensor.connected))
         gyro_sensor.mode = 'GYRO-ANG'
-
-        self.ultrasonic_sensor = ultrasonic_sensor
-        self.color_sensor = color_sensor
         self.gyro_sensor = gyro_sensor
 
-        right_motor.run_to_rel_pos()
+        try:
+            color_sensor = ev3.ColorSensor()
+            logging.info("color sensor connected: %s" % str(color_sensor.connected))
+            color_sensor.mode = 'COL-REFLECT'
+            self.color_sensor = color_sensor
+
+        except Exception as e:
+            logging.exception("message")
+
+        try:
+            ultrasonic_sensor = ev3.UltrasonicSensor()
+            logging.info("ultrasonic sensor connected: %s" % str(ultrasonic_sensor.connected))
+            ultrasonic_sensor.mode = 'US-DIST-CM'
+            self.ultrasonic_sensor = ultrasonic_sensor
+
+        except Exception as e:
+            logging.exception("message")
+
+        try:
+            ir_sensor = ev3.InfraredSensor()
+            logging.info("ir sensor connected: %s" % str(ir_sensor.connected))
+            ir_sensor.mode = 'IR-REMOTE'
+            self.ir_sensor = ir_sensor
+
+        except Exception as e:
+            logging.exception("message")
 
     def forward(self, speed=None):
 
@@ -99,8 +114,4 @@ class Robot:
     def set_speed(self, speed):
         for m in self.motors:
             m.speed_sp = speed
-
-
-
-
 

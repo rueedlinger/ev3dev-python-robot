@@ -5,16 +5,16 @@ import time
 import logging
 from random import randint
 
-from robot import Robot
+from common.robot import Robot
 
 # default sleep timeout in sec
 DEFAULT_SLEEP_TIMEOUT_IN_SEC = 0.1
 
 # default speed
-DEFAULT_SPEED = 100
+DEFAULT_SPEED = 200
 
 # default threshold distance
-DEFAULT_THRESHOLD_DISTANCE = 90
+DEFAULT_THRESHOLD_DISTANCE = 150
 
 # config logging
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -40,6 +40,23 @@ def main():
                                                               str(robot.left_motor.position)))
             logging.debug('motor speed (r, l): %s, %s' % (str(robot.right_motor.speed),
                                                               str(robot.left_motor.speed)))
+            ir_value = robot.ir_sensor.value()
+            logging.debug('ir value: %s' % str(ir_value))
+
+            if ir_value == 1:
+                robot.brake()
+            elif ir_value == 2:
+                robot.turn(-90)
+            elif ir_value == 3:
+                robot.forward(DEFAULT_SPEED)
+            elif ir_value == 4:
+                robot.turn(90)
+            elif ir_value == 5:
+                robot.turn(-180)
+            elif ir_value == 8:
+                robot.turn(180)
+            elif ir_value == 9:
+                robot.backward(DEFAULT_SPEED)
 
             if robot.ultrasonic_sensor.value() < DEFAULT_THRESHOLD_DISTANCE:
                 logging.debug('object found: %s' % str(robot.ultrasonic_sensor.value()))
@@ -67,3 +84,4 @@ def teardown(robot):
 
 if __name__ == "__main__":
     main()
+
