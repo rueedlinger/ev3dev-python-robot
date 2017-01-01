@@ -39,6 +39,6 @@ The example uses the following sensors:
 
 tbd
 
-### MQQT ev3dev robot
+### MQTT ev3dev robot
 
 tbd
