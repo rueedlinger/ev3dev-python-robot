@@ -100,7 +100,7 @@ class Simulator:
     def state(self):
         """
         Returns the state of the robot (distance right / left motor and angle)
-        :return: map {'right_motor', 'lef_motor', 'angle'} with teh current values distance
+        :return: map {'right_motor', 'lef_motor', 'angle'} with the current values distance
         left motor, distance right motor and current angle in degrees of the robot
         """
         out = {
