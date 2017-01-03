@@ -9,38 +9,36 @@ class BasicTestSuite(unittest.TestCase):
 
     def setUp(self):
         t = turtle.Turtle()
-        t.reset()
-        t.clear()
         t.speed(0)
         self.__turtle = t
 
-    def compare_pos(self, pos1, pos2):
-        self.assertAlmostEqual(pos1[0], pos2[0], delta=0.01)
-        self.assertAlmostEqual(pos1[1], pos2[1], delta=0.01)
+    def compare_pos(self, pos1, pos2, factor=1/2):
+        self.assertAlmostEqual(pos1[0], pos2[0] * factor, delta=0.01)
+        self.assertAlmostEqual(pos1[1], pos2[1] * factor, delta=0.01)
 
     def test_init_default(self):
         sim = api.Simulator()
         self.assertEqual(sim.angle(), 0)
         self.assertEqual(sim.position(), (0, 0))
 
-    def test_init_with_valuesself(self):
+    def test_init_with_values(self):
         sim = api.Simulator(x=10, y=20, angle=90)
         self.assertEqual(sim.angle(), 90)
-        self.assertEqual(sim.position(), (10, 20))
+        self.compare_pos(sim.position(), (10, 20))
 
     def test_forward(self):
         sim = api.Simulator()
         distance = 100
         self.__turtle.forward(distance)
         sim.forward(distance)
-        self.assertEqual(sim.position(), self.__turtle.position())
+        self.compare_pos(sim.position(), self.__turtle.position())
 
     def test_backward(self):
         sim = api.Simulator()
         distance = 180
         self.__turtle.backward(distance)
         sim.backward(distance)
-        self.assertEqual(sim.position(), self.__turtle.position())
+        self.compare_pos(sim.position(), self.__turtle.position())
 
     def test_right(self):
         sim = api.Simulator()
@@ -87,10 +85,32 @@ class BasicTestSuite(unittest.TestCase):
 
         self.compare_pos(sim.position(), self.__turtle.position())
 
-        self.__turtle.right(angle * 90)
+        self.__turtle.right(angle * 92)
         self.__turtle.forward(distance)
 
-        sim.right(angle * 90)
+        sim.right(angle * 92)
         sim.forward(distance)
 
         self.compare_pos(sim.position(), self.__turtle.position())
+
+    def test_distance_simple(self):
+        sim = api.Simulator()
+        distance = 180
+
+        sim.forward(distance)
+        self.assertEqual(sim.state(), {'angle': 0, 'lef_motor': distance, 'right_motor': distance})
+
+        sim.backward(distance)
+        self.assertEqual(sim.state(), {'angle': 0, 'lef_motor': 0, 'right_motor': 0})
+
+    def test_distance_right(self):
+        sim = api.Simulator()
+
+        sim.right(90)
+        self.assertEqual(sim.state(), {'angle': -90, 'lef_motor': 220, 'right_motor': -220})
+
+    def test_distance_left(self):
+        sim = api.Simulator()
+
+        sim.left(90)
+        self.assertEqual(sim.state(), {'angle': 90, 'lef_motor': -220, 'right_motor': 220})

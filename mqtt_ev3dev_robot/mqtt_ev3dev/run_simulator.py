@@ -1,41 +1,30 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import sys
 import logging
 import json
 import getopt
 import paho.mqtt.client as mqtt
+import time
 
-from command import CommandExecutor
-from robot import Robot
 from simulator import Simulator
+from command import CommandExecutor
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
-###
-# constants
-###
-TIMEOUT_SEC = 1
+TIMEOUT_SEC = 2
 KEEPALIVE_SEC = 60
-
-###
-# default settings
-###
 
 # default topic
 topic = "robot"
 
 # default mqtt broker (hostname or ip) and port
-server = "broker"
+server = "127.0.0.1"
 port = 1883
 
 if __name__ == "__main__":
 
-    # default robot
-    robot = Simulator()
-
     # parse args
-    optlist, args = getopt.getopt(sys.argv[1:], shortopts="", longopts=["broker=", "port=", "topic=", "mode="])
+    optlist, args = getopt.getopt(sys.argv[1:], shortopts="", longopts=["broker=", "port=", "topic="])
 
     for opt, arg in optlist:
         if opt == '--broker':
@@ -44,9 +33,9 @@ if __name__ == "__main__":
             port = arg
         elif opt == '--topic':
             topic = arg
-        elif opt == '--mode':
-            if arg == 'ev3':
-                robot = Robot()
+
+    # default robot
+    robot = Simulator()
 
     dispatcher = CommandExecutor(robot)
 
@@ -55,6 +44,7 @@ if __name__ == "__main__":
 
     mqtt = mqtt.Client()
     mqtt.connect(server, port, KEEPALIVE_SEC)
+
 
     # The callback for when the client receives a CONNACK response from the server.
     def on_connect(client, userdata, flags, rc):
@@ -84,16 +74,13 @@ if __name__ == "__main__":
     mqtt.on_message = on_message
     mqtt.on_disconnect = on_disconnect
 
-    while True:
-        resp = mqtt.loop(timeout=TIMEOUT_SEC)
+    mqtt.loop_start()
 
-        # try reconnect when return code is not 0
-        if resp != 0:
-            try:
-                mqtt.reconnect()
-            except ConnectionRefusedError:
-                logging.exception("connection lost rc=%s" % resp)
-        else:
-            mqtt.publish(topic + "/state", json.dumps(robot.state()))
+    while True:
+
+        time.sleep(TIMEOUT_SEC)
+
+        mqtt.publish(topic + "/state", json.dumps(robot.state()))
+        mqtt.publish(topic + "/position", json.dumps({'pos': robot.position()}))
 
 
