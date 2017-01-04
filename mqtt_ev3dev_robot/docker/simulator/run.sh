@@ -1,3 +1,4 @@
 #!/bin/bash
 
-docker run --rm --link broker robot/simulator
+echo "args: $@"
+docker run --rm --link broker robot/simulator $@

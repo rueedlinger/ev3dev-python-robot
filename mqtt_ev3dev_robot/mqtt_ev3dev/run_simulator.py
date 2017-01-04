@@ -40,7 +40,6 @@ if __name__ == "__main__":
     dispatcher = CommandExecutor(robot)
 
     logging.info("Try to connect to " + str(server) + ":" + str(port) + " and topic " + str(topic))
-    logging.info("Robot: " + str(robot))
 
     mqtt = mqtt.Client()
     mqtt.connect(server, port, KEEPALIVE_SEC)
@@ -62,8 +61,10 @@ if __name__ == "__main__":
         try:
             obj = json.loads(msg.payload.decode('utf-8'))
             dispatcher.exec(obj)
-        except Exception:
+            client.publish(topic + "/done", json.dumps(obj))
+        except Exception as ex:
             logging.exception("Invalid message format! %s" % msg.payload)
+            client.publish(topic + "/error",  json.dumps({'type': type(ex).__name__, 'error': str(ex)}))
 
 
     def on_disconnect(client, userdata, rc):
@@ -81,6 +82,6 @@ if __name__ == "__main__":
         time.sleep(TIMEOUT_SEC)
 
         mqtt.publish(topic + "/state", json.dumps(robot.state()))
-        mqtt.publish(topic + "/position", json.dumps({'pos': robot.position()}))
+        mqtt.publish(topic + "/position", json.dumps({'robot': robot.position()}))
 
 

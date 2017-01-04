@@ -4,18 +4,18 @@ import sys
 import logging
 import json
 import getopt
+import time
 import paho.mqtt.client as mqtt
 
 from command import CommandExecutor
 from robot import Robot
-from simulator import Simulator
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
 ###
 # constants
 ###
-TIMEOUT_SEC = 1
+TIMEOUT_SEC = 2
 KEEPALIVE_SEC = 60
 
 ###
@@ -26,13 +26,13 @@ KEEPALIVE_SEC = 60
 topic = "robot"
 
 # default mqtt broker (hostname or ip) and port
-server = "broker"
+server = "127.0.0.1"
 port = 1883
 
 if __name__ == "__main__":
 
     # default robot
-    robot = Simulator()
+    robot = Robot()
 
     # parse args
     optlist, args = getopt.getopt(sys.argv[1:], shortopts="", longopts=["broker=", "port=", "topic=", "mode="])
@@ -44,14 +44,10 @@ if __name__ == "__main__":
             port = arg
         elif opt == '--topic':
             topic = arg
-        elif opt == '--mode':
-            if arg == 'ev3':
-                robot = Robot()
 
     dispatcher = CommandExecutor(robot)
 
     logging.info("Try to connect to " + str(server) + ":" + str(port) + " and topic " + str(topic))
-    logging.info("Robot: " + str(robot))
 
     mqtt = mqtt.Client()
     mqtt.connect(server, port, KEEPALIVE_SEC)
@@ -72,8 +68,10 @@ if __name__ == "__main__":
         try:
             obj = json.loads(msg.payload.decode('utf-8'))
             dispatcher.exec(obj)
-        except Exception:
+            client.publish(topic + "/done", json.dumps(obj))
+        except Exception as ex:
             logging.exception("Invalid message format! %s" % msg.payload)
+            client.publish(topic + "/error", json.dumps({'type': type(ex).__name__, 'error': str(ex)}))
 
 
     def on_disconnect(client, userdata, rc):
@@ -85,15 +83,8 @@ if __name__ == "__main__":
     mqtt.on_disconnect = on_disconnect
 
     while True:
-        resp = mqtt.loop(timeout=TIMEOUT_SEC)
+        time.sleep(TIMEOUT_SEC)
 
-        # try reconnect when return code is not 0
-        if resp != 0:
-            try:
-                mqtt.reconnect()
-            except ConnectionRefusedError:
-                logging.exception("connection lost rc=%s" % resp)
-        else:
-            mqtt.publish(topic + "/state", json.dumps(robot.state()))
+        mqtt.publish(topic + "/state", json.dumps(robot.state()))
 
 

@@ -67,3 +67,5 @@ target/
 
 # apple files
 **/.DS_Store
+
+**/_build_docker/*
