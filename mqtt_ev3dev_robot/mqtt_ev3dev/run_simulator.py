@@ -7,7 +7,7 @@ import paho.mqtt.client as mqtt
 import time
 
 from simulator import Simulator
-from command import CommandExecutor
+from command import CommandDispatcher
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     # default robot
     robot = Simulator()
 
-    dispatcher = CommandExecutor(robot)
+    dispatcher = CommandDispatcher(robot)
 
     logging.info("Try to connect to " + str(server) + ":" + str(port) + " and topic " + str(topic))
 

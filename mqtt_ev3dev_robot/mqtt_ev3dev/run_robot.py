@@ -7,7 +7,7 @@ import getopt
 import time
 import paho.mqtt.client as mqtt
 
-from command import CommandExecutor
+from command import CommandDispatcher
 from robot import Robot
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         elif opt == '--topic':
             topic = arg
 
-    dispatcher = CommandExecutor(robot)
+    dispatcher = CommandDispatcher(robot)
 
     logging.info("Try to connect to " + str(server) + ":" + str(port) + " and topic " + str(topic))
 

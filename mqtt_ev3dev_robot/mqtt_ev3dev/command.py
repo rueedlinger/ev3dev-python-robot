@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-class CommandExecutor:
+class CommandDispatcher:
+    """
+    Command dispatcher
+    """
 
     MSG_COMMAND = 'command'
     MSG_ARGS = 'args'
