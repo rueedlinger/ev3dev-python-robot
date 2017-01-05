@@ -1,4 +1,5 @@
 import unittest
+import random
 from .context import mqtt_ev3dev as api
 
 import turtle
@@ -35,25 +36,28 @@ class BasicTestSuite(unittest.TestCase):
         self.assertEqual(p.collected, True)
 
     def test_create_points(self):
+        x = 300
+        y = 300
 
-        n = 10
-        g = api.Game(n_points=n, max_x=300, max_y=300)
+        n = 80
+        g = api.Game(n_points=n, max_x=x, max_y=y)
+
         self.assertEqual(len(g.points()), n)
 
         t = turtle.Turtle()
-        #t.screen.screensize(400,400)
+        t.speed(0)
+        t.screen.screensize(x, y)
 
-        t.forward(300)
+        t.forward(x)
         t.left(90)
-        t.forward(300)
+        t.forward(y)
         t.left(90)
-        t.forward(300)
+        t.forward(x)
         t.left(90)
-        t.forward(300)
-        t.setx(300/2)
-        t.sety(300/2)
+        t.forward(y)
+        t.setx(x/2)
+        t.sety(y/2)
         t.circle(1)
-
 
         t.penup()
         for p in g.points():
@@ -63,9 +67,27 @@ class BasicTestSuite(unittest.TestCase):
             t.pendown()
             t.circle(p.r)
             t.penup()
-            print(p)
+            self.assertEqual(p.collected, False)
 
+        t.setx(x / 2)
+        t.sety(y / 2)
 
+        t.color("red")
+        for p in g.points():
+            t.pendown()
+
+            x = p.x + random.randint(-2, 2)
+            y = p.y + random.randint(-2, 2)
+            t.setx(x)
+            t.sety(y)
+            random.randint(-4, 40)
+            g.check(x, y)
+            t.begin_fill()
+            t.circle(p.r)
+            t.end_fill()
+
+        for p in g.points():
+            self.assertEqual(p.collected, True)
 
 
 

@@ -41,15 +41,28 @@ class Game:
     def points(self):
         return self.__points
 
+    def max_x(self):
+        return self.__max_x
+
+    def max_y(self):
+        return self.__max_y
+
+    def create_coordinate(self):
+        x = random.randint(self.__radius * 2, self.__max_x - self.__radius * 2)
+        y = random.randint(self.__radius * 2, self.__max_y - self.__radius * 2)
+        return x, y
+
     def create_points(self, n_points, x_center, y_center):
 
         points = []
 
         for i in range(n_points):
-            angle = random.randint(0, 360)
-            r = self.__max_x / 4
-            x = round(math.cos(math.radians(angle)) * r + x_center) + random.randint(-10, 10)
-            y = round(math.sin(math.radians(angle)) * r + y_center) + random.randint(-10, 10)
+
+            x, y = self.create_coordinate()
+            r = self.__radius * 10
+
+            while math.pow(x - round(x_center), 2) + math.pow(y - round(y_center), 2) < math.pow(r, 2):
+                x, y = self.create_coordinate()
 
             points.append(Point(x=x, y=y, r=self.__radius))
 
