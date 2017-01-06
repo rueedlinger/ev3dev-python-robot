@@ -7,7 +7,9 @@ import paho.mqtt.client as mqtt
 import time
 
 from simulator import Simulator
+from game import PointEncoder
 from command import CommandDispatcher
+from game import Game
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
@@ -23,6 +25,8 @@ port = 1883
 
 if __name__ == "__main__":
 
+    logging.info("Starting simulator...")
+
     # parse args
     optlist, args = getopt.getopt(sys.argv[1:], shortopts="", longopts=["broker=", "port=", "topic="])
 
@@ -35,7 +39,9 @@ if __name__ == "__main__":
             topic = arg
 
     # default robot
-    robot = Simulator()
+    game = Game()
+    robot = Simulator(x=game.center_x(), y=game.center_y())
+
 
     dispatcher = CommandDispatcher(robot)
 
@@ -82,6 +88,17 @@ if __name__ == "__main__":
         time.sleep(TIMEOUT_SEC)
 
         mqtt.publish(topic + "/state", json.dumps(robot.state()))
-        mqtt.publish(topic + "/position", json.dumps({'robot': robot.position()}))
+
+        x, y = robot.position()
+        x_max = game.max_x()
+        y_max = game.max_y()
+
+        game.check(x, y)
+        points = game.points()
+
+        mqtt.publish(topic + "/position", json.dumps({'robot': {'x': x, 'y': y},
+                                                      'world': {'x_max': x_max, 'y_max': y_max},
+                                                      'points': points}, cls=PointEncoder))
+
 
 

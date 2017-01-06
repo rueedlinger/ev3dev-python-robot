@@ -114,7 +114,7 @@ class Simulator:
         """
         out = {
             'right_motor': self.__right_distance,
-            'lef_motor': self.__left_distance,
+            'left_motor': self.__left_distance,
             'angle': self.angle()
         }
 
@@ -122,4 +122,7 @@ class Simulator:
 
     def calc_distance_with_angle(self, angle):
         return round(2 * self.RADIUS_CM * math.pi * angle / 360 * self.TACHO_COUNT_CM_FACTOR)
+
+
+
 

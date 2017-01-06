@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
 import math
+import json
 
 class Point:
     """
@@ -24,19 +25,31 @@ class Point:
         return "x: " + str(self.x) + ", y: " + str(self.y) + ", r:" + str(self.r)
 
 
+class PointEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Point):
+            return {'x': obj.x, 'y': obj.y, 'r': obj.r, 'score': obj.score, 'collected': obj.collected}
+        # Let the base class default method raise the TypeError
+        return json.JSONEncoder.default(self, obj)
+
 class Game:
     """
     The game engine -  master of the points and score
     """
 
-    def __init__(self, n_points=10, radius=5, max_x=800, max_y=800):
+    def __init__(self, n_points=50, radius=5, max_x=800, max_y=800):
 
         self.__max_y = max_y
         self.__max_x = max_x
         self.__radius = radius
-        self._n_points = n_points
+        self.__n_points = n_points
 
-        self.__points = self.create_points(n_points, round(max_x / 2), round(max_y / 2))
+        x_center = round(max_x / 2)
+        y_center = round(max_y / 2)
+        self.__x_center = x_center
+        self.__y_center = y_center
+
+        self.__points = self.create_points(n_points, x_center, y_center)
 
     def points(self):
         return self.__points
@@ -46,6 +59,12 @@ class Game:
 
     def max_y(self):
         return self.__max_y
+
+    def center_x(self):
+        return self.__x_center
+
+    def center_y(self):
+        return self.__y_center
 
     def create_coordinate(self):
         x = random.randint(self.__radius * 2, self.__max_x - self.__radius * 2)

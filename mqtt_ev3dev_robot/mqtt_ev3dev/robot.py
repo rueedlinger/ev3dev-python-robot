@@ -110,7 +110,7 @@ class Robot:
         """
         out = {
             'right_motor': self.right_motor.position,
-            'lef_motor': self.left_motor.position,
+            'left_motor': self.left_motor.position,
             'angle': self.gyro_sensor.value()
         }
 

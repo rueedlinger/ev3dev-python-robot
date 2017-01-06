@@ -1,0 +1,9 @@
+body {
+  padding-top: 10px;
+}
+
+#map {
+    text-align: center;
+    color: black;
+    border:2px solid;
+}

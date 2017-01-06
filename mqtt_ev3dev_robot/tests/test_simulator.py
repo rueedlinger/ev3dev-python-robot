@@ -98,19 +98,19 @@ class BasicTestSuite(unittest.TestCase):
         distance = 180
 
         sim.forward(distance)
-        self.assertEqual(sim.state(), {'angle': 0, 'lef_motor': distance, 'right_motor': distance})
+        self.assertEqual(sim.state(), {'angle': 0, 'left_motor': distance, 'right_motor': distance})
 
         sim.backward(distance)
-        self.assertEqual(sim.state(), {'angle': 0, 'lef_motor': 0, 'right_motor': 0})
+        self.assertEqual(sim.state(), {'angle': 0, 'left_motor': 0, 'right_motor': 0})
 
     def test_distance_right(self):
         sim = api.Simulator()
 
         sim.right(90)
-        self.assertEqual(sim.state(), {'angle': -90, 'lef_motor': 220, 'right_motor': -220})
+        self.assertEqual(sim.state(), {'angle': -90, 'left_motor': 220, 'right_motor': -220})
 
     def test_distance_left(self):
         sim = api.Simulator()
 
         sim.left(90)
-        self.assertEqual(sim.state(), {'angle': 90, 'lef_motor': -220, 'right_motor': 220})
+        self.assertEqual(sim.state(), {'angle': 90, 'left_motor': -220, 'right_motor': 220})
