@@ -32,8 +32,12 @@ function drawRobot(x, y, r, max_x, max_y) {
     var c = $("#robot_layer");
     var ctx = c[0].getContext('2d');
 
+
     ctx.canvas.height = max_y;
     ctx.canvas.width = max_x;
+
+    ctx.translate(0, max_y);
+    ctx.scale(1, -1);
 
     ctx.clearRect(0, 0, max_x, max_y);
 
@@ -68,30 +72,39 @@ function onMessageArrived(message) {
 
 
 
+
     var body = JSON.parse(message.payloadString)
     if (message.destinationName === 'robot/position') {
         if(first_position) {
-
-        function getMousePos(canvas, evt) {
-            var rect = canvas.getBoundingClientRect();
-            return {
-                x: Math.round(evt.clientX - rect.left),
-                y: Math.round(evt.clientY - rect.top)
-               };
-         }
-
-        ctx.canvas.addEventListener('mousemove', function(evt) {
-            var mousePos = getMousePos(ctx.canvas, evt);
-             $("#mouse").empty()
-                .append("<li>x: " + mousePos.x + "</li>")
-                .append("<li>y: " + mousePos.y + "</li>");
-        }, false);
 
             ctx.canvas.height = body.world.y_max;
             ctx.canvas.width = body.world.x_max;
 
             max_x = body.world.x_max;
             max_y = body.world.y_max;
+
+            ctx.translate(0, max_y);
+            ctx.scale(1, -1);
+
+            function getMousePos(canvas, evt) {
+
+                var rect = canvas.getBoundingClientRect();
+
+
+                return {
+                    x: Math.round(evt.clientX - rect.left),
+                    y: Math.round(Math.abs(evt.clientY - rect.top - canvas.height))
+                   };
+             }
+
+            ctx.canvas.addEventListener('mousemove', function(evt) {
+                var mousePos = getMousePos(ctx.canvas, evt);
+                 $("#mouse").empty()
+                    .append("<li>x: " + mousePos.x + "</li>")
+                    .append("<li>y: " + mousePos.y + "</li>");
+            }, false);
+
+
 
             $("#world").empty()
                 .append("<li>x max: " + body.world.x_max + "</li>")
