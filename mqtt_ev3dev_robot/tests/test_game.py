@@ -4,6 +4,7 @@ from .context import mqtt_ev3dev as api
 
 import turtle
 
+
 class BasicTestSuite(unittest.TestCase):
 
     def test_point(self):
@@ -12,7 +13,7 @@ class BasicTestSuite(unittest.TestCase):
         r = 5
         p = api.Point(x=x, y=y, r=r)
         self.assertEqual(p.collected, False)
-        self.assertEqual(p.score, 100)
+        self.assertEqual(p.score, 1)
         self.assertEqual(p.x, x)
         self.assertEqual(p.y, y)
         self.assertEqual(p.r, r)

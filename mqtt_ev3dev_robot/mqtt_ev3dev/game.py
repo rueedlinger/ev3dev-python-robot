@@ -90,9 +90,9 @@ class Game:
     def check(self, x, y, r):
 
         for p in self.__points:
-            radius = max(r, p.r)
+            distance = r + p.r
 
-            if math.pow(x - p.x, 2) + math.pow(y - p.y, 2) < math.pow(radius * 2, 2):
+            if math.pow(x - p.x, 2) + math.pow(y - p.y, 2) < math.pow(distance, 2):
                 # robot has found the point
                 p.collected = True
 
