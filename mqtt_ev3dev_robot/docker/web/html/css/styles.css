@@ -2,7 +2,7 @@ body {
   padding-top: 10px;
 }
 
-#map {
+#map_layer {
     text-align: center;
     color: black;
     border:2px solid;

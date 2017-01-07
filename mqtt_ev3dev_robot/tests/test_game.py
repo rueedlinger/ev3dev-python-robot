@@ -24,12 +24,13 @@ class BasicTestSuite(unittest.TestCase):
 
     def test_check(self):
         n = 1
+        r = 1
         g = api.Game(n_points=n)
         self.assertEqual(len(g.points()), n)
         p = g.points()[0]
         self.assertEqual(p.collected, False)
 
-        g.check(p.x, p.y)
+        g.check(p.x, p.y, r)
 
         p = g.points()[0]
         print(p)
@@ -38,6 +39,7 @@ class BasicTestSuite(unittest.TestCase):
     def test_create_points(self):
         x = 300
         y = 300
+        r = 7
 
         n = 80
         g = api.Game(n_points=n, max_x=x, max_y=y)
@@ -81,9 +83,9 @@ class BasicTestSuite(unittest.TestCase):
             t.setx(x)
             t.sety(y)
             random.randint(-4, 40)
-            g.check(x, y)
+            g.check(x, y, r)
             t.begin_fill()
-            t.circle(p.r)
+            t.circle(r)
             t.end_fill()
 
         for p in g.points():

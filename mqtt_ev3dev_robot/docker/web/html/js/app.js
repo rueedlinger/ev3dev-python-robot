@@ -40,12 +40,22 @@ function drawRobot(x, y, r, max_x, max_y) {
     ctx.beginPath();
 
     ctx.arc(x, y, r, 2 * Math.PI, false);
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = "#c12676";
     ctx.fill();
     ctx.stroke();
 
+}
 
-
+function getScore(points){
+    var total = 0;
+    var current = 0
+    for (var i = 0; i < points.length; i++) {
+        total += points[i].score;
+        if(points[i].collected) {
+            current += points[i].score;
+        }
+    }
+    return {'max': total, 'current': current};
 }
 
 
@@ -65,8 +75,8 @@ function onMessageArrived(message) {
         function getMousePos(canvas, evt) {
             var rect = canvas.getBoundingClientRect();
             return {
-                x: evt.clientX - rect.left,
-                y: evt.clientY - rect.top
+                x: Math.round(evt.clientX - rect.left),
+                y: Math.round(evt.clientY - rect.top)
                };
          }
 
@@ -99,7 +109,7 @@ function onMessageArrived(message) {
                 ctx.arc(point.x, point.y, point.r, 0, 2 * Math.PI, false);
 
                 if (point.collected) {
-                    ctx.fillStyle = 'green';
+                    ctx.fillStyle = "#6726c1";
                     ctx.fill();
                 }
 
@@ -107,7 +117,17 @@ function onMessageArrived(message) {
             });
 
             var robot = body.robot
-            drawRobot(robot.x, robot.y, 7.5, max_x, max_y)
+            drawRobot(robot.x, robot.y, robot.r, max_x, max_y)
+
+            $("#position").empty()
+                .append("<li>x: " + robot.x + "</li>")
+                .append("<li>y: " + robot.y + "</li>")
+                .append("<li>r: " + robot.r + "</li>");
+
+            var score = getScore(points);
+             $("#score").empty()
+                .append("<li>max: " + score.max + "</li>")
+                .append("<li>current: " + score.current + "</li>");
 
         }
     }

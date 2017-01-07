@@ -19,7 +19,7 @@ class Point:
         self.y = y
         self.r = r
         self.collected = False
-        self.score = 100
+        self.score = 1
 
     def __str__(self):
         return "x: " + str(self.x) + ", y: " + str(self.y) + ", r:" + str(self.r)
@@ -87,9 +87,12 @@ class Game:
 
         return points
 
-    def check(self, x, y):
+    def check(self, x, y, r):
+
         for p in self.__points:
-            if math.pow(x - p.x, 2) + math.pow(y - p.y, 2) < math.pow(p.r, 2):
+            radius = max(r, p.r)
+
+            if math.pow(x - p.x, 2) + math.pow(y - p.y, 2) < math.pow(radius * 2, 2):
                 # robot has found the point
                 p.collected = True
 

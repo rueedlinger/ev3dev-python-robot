@@ -19,7 +19,7 @@ class BasicTestSuite(unittest.TestCase):
     def test_init_default(self):
         sim = api.Simulator()
         self.assertEqual(sim.angle(), 0)
-        self.assertEqual(sim.position(), (0, 0))
+        self.assertEqual(sim.position(), (0, 0, 7))
 
     def test_init_with_values(self):
         sim = api.Simulator(x=10, y=20, angle=90)

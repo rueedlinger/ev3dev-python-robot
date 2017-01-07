@@ -95,9 +95,9 @@ class Simulator:
     def position(self):
         """
         The current position (x,y) from the robot.
-        :return: the x, y coordinates as tuple
+        :return: the x, y coordinates and radius as tuple
         """
-        return round(self.__x * self.POSITION_FACTOR, self.ROUND_DIGITS), round(self.__y *  self.POSITION_FACTOR, self.ROUND_DIGITS)
+        return round(self.__x * self.POSITION_FACTOR, self.ROUND_DIGITS), round(self.__y *  self.POSITION_FACTOR, self.ROUND_DIGITS), self.RADIUS_CM
 
     def stop(self):
         """

@@ -13,7 +13,7 @@ from game import Game
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
-TIMEOUT_SEC = 2
+TIMEOUT_SEC = 1
 KEEPALIVE_SEC = 60
 
 # default topic
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     # default robot
     game = Game()
-    robot = Simulator(x=game.center_x(), y=game.center_y())
+    robot = Simulator(x=game.center_x() * 2, y=game.center_y() * 2)
 
 
     dispatcher = CommandDispatcher(robot)
@@ -89,14 +89,14 @@ if __name__ == "__main__":
 
         mqtt.publish(topic + "/state", json.dumps(robot.state()))
 
-        x, y = robot.position()
+        x, y, r = robot.position()
         x_max = game.max_x()
         y_max = game.max_y()
 
-        game.check(x, y)
+        game.check(x, y, r)
         points = game.points()
 
-        mqtt.publish(topic + "/position", json.dumps({'robot': {'x': x, 'y': y},
+        mqtt.publish(topic + "/position", json.dumps({'robot': {'x': x, 'y': y, 'r': r},
                                                       'world': {'x_max': x_max, 'y_max': y_max},
                                                       'points': points}, cls=PointEncoder))
 
