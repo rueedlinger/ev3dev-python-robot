@@ -43,7 +43,7 @@ if __name__ == "__main__":
     game = Game(n_points=50, radius=5, max_x=800, max_y=800, radius_factor=40)
     logging.info("Game: " + str(game))
 
-    robot = Simulator(x=game.center_x(), y=game.center_y())
+    robot = Simulator(x=game.center_x(), y=game.center_y(), r=15, angle=0)
     logging.info("Robot: " + str(robot))
 
     dispatcher = CommandDispatcher(robot)

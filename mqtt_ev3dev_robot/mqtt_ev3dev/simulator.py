@@ -17,20 +17,23 @@ class Simulator:
     # factor between robot distance (tacho counts) and x/y positional system
     POSITION_FACTOR = 2
 
-    def __init__(self, x=0, y=0, angle=0, r=15):
+    def __init__(self, x=0, y=0, r=15, angle=0):
         """
         Initialize the robot simulator and positional system.
         :param x: the horizontal starting position.
         :param y: the vertical starting position.
+        :param r: the radius
         :param angle: the starting angle in degrees.
         """
-        self.__x = x
-        self.__y = y
+        self.__x = x * self.POSITION_FACTOR
+        self.__y = y * self.POSITION_FACTOR
         self.__r = r
         self.__angle = angle
-        self.__start_x = x * self.POSITION_FACTOR
-        self.__start_y = y * self.POSITION_FACTOR
-        self.__start_angle = angle
+
+        self.__start_x = self.__x
+        self.__start_y = self.__y
+        self.__start_angle = self.__angle
+
         self.__left_distance = 0
         self.__right_distance = 0
 

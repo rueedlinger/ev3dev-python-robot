@@ -13,6 +13,12 @@ client.onMessageArrived = onMessageArrived;
 client.connect({onSuccess:onConnect});
 
 
+function zoom(value) {
+    console.log(value);
+    document.body.style.zoom = value;
+}
+
+
 // called when the client connects
 function onConnect() {
   // Once a connection has been made, make a subscription.
@@ -69,7 +75,60 @@ function getScore(points){
     return {'max': total, 'current': current};
 }
 
+function updatePoints(ctx, points) {
+    $.each(points, function(index, point) {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, point.r, 0, 2 * Math.PI, false);
 
+        if (point.collected) {
+            ctx.fillStyle = "#6726c1";
+            ctx.fill();
+        }
+
+        ctx.stroke();
+    });
+}
+
+function createWorld(ctx, body) {
+    ctx.canvas.height = body.world.y_max;
+    ctx.canvas.width = body.world.x_max;
+
+    ctx.clearRect(0, 0, max_x, max_y);
+
+    max_x = body.world.x_max;
+    max_y = body.world.y_max;
+
+    ctx.translate(0, max_y);
+    ctx.scale(1, -1);
+
+    function getMousePos(canvas, evt) {
+
+        var rect = canvas.getBoundingClientRect();
+
+
+        return {
+            x: Math.round(evt.clientX - rect.left),
+            y: Math.round(Math.abs(evt.clientY - rect.top - canvas.height))
+           };
+     }
+
+    ctx.canvas.addEventListener('mousemove', function(evt) {
+        var mousePos = getMousePos(ctx.canvas, evt);
+         $("#mouse").empty()
+            .append("<li>x: " + mousePos.x + "</li>")
+            .append("<li>y: " + mousePos.y + "</li>");
+    }, false);
+
+
+
+    $("#world").empty()
+        .append("<li>x max: " + body.world.x_max + "</li>")
+        .append("<li>y max: " + body.world.y_max + "</li>")
+        .append("<li>x min: 0 </li>")
+        .append("<li>y min: 0 </li>");
+
+    doUpdate = false;
+}
 
 // called when a message arrives
 function onMessageArrived(message) {
@@ -81,59 +140,11 @@ function onMessageArrived(message) {
     if (message.destinationName === 'robot/position') {
         if(doUpdate) {
 
-            ctx.canvas.height = body.world.y_max;
-            ctx.canvas.width = body.world.x_max;
-
-            ctx.clearRect(0, 0, max_x, max_y);
-
-            max_x = body.world.x_max;
-            max_y = body.world.y_max;
-
-            ctx.translate(0, max_y);
-            ctx.scale(1, -1);
-
-            function getMousePos(canvas, evt) {
-
-                var rect = canvas.getBoundingClientRect();
-
-
-                return {
-                    x: Math.round(evt.clientX - rect.left),
-                    y: Math.round(Math.abs(evt.clientY - rect.top - canvas.height))
-                   };
-             }
-
-            ctx.canvas.addEventListener('mousemove', function(evt) {
-                var mousePos = getMousePos(ctx.canvas, evt);
-                 $("#mouse").empty()
-                    .append("<li>x: " + mousePos.x + "</li>")
-                    .append("<li>y: " + mousePos.y + "</li>");
-            }, false);
-
-
-
-            $("#world").empty()
-                .append("<li>x max: " + body.world.x_max + "</li>")
-                .append("<li>y max: " + body.world.y_max + "</li>")
-                .append("<li>x min: 0 </li>")
-                .append("<li>y min: 0 </li>");
-
-            doUpdate = false;
+            createWorld(ctx, body)
 
         } else {
-            var points = body.points;
 
-            $.each(body.points, function(index, point) {
-                ctx.beginPath();
-                ctx.arc(point.x, point.y, point.r, 0, 2 * Math.PI, false);
-
-                if (point.collected) {
-                    ctx.fillStyle = "#6726c1";
-                    ctx.fill();
-                }
-
-                ctx.stroke();
-            });
+            updatePoints(ctx, body.points)
 
             var robot = body.robot
             drawRobot(robot.x, robot.y, robot.r, max_x, max_y)
@@ -143,7 +154,7 @@ function onMessageArrived(message) {
                 .append("<li>y: " + robot.y + "</li>")
                 .append("<li>r: " + robot.r + "</li>");
 
-            var score = getScore(points);
+            var score = getScore(body.points);
              $("#score").empty()
                 .append("<li>max: " + score.max + "</li>")
                 .append("<li>current: " + score.current + "</li>");
