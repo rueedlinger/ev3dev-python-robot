@@ -23,6 +23,7 @@ topic = "robot"
 server = "127.0.0.1"
 port = 1883
 
+
 if __name__ == "__main__":
 
     logging.info("Starting simulator...")
@@ -38,10 +39,12 @@ if __name__ == "__main__":
         elif opt == '--topic':
             topic = arg
 
-    # default robot
-    game = Game()
-    robot = Simulator(x=game.center_x() * 2, y=game.center_y() * 2)
+    # default robot / game
+    game = Game(n_points=50, radius=5, max_x=800, max_y=800, radius_factor=40)
+    logging.info("Game: " + str(game))
 
+    robot = Simulator(x=game.center_x(), y=game.center_y())
+    logging.info("Robot: " + str(robot))
 
     dispatcher = CommandDispatcher(robot)
 
@@ -58,19 +61,27 @@ if __name__ == "__main__":
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.
         client.subscribe(topic + "/process")
+        client.subscribe("game")
 
 
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         logging.info("Received message '" + str(msg.payload) + " on topic " + msg.topic + " with QoS " + str(msg.qos))
 
-        try:
-            obj = json.loads(msg.payload.decode('utf-8'))
-            dispatcher.exec(obj)
-            client.publish(topic + "/done", json.dumps(obj))
-        except Exception as ex:
-            logging.exception("Invalid message format! %s" % msg.payload)
-            client.publish(topic + "/error",  json.dumps({'type': type(ex).__name__, 'error': str(ex)}))
+        if "robot" in msg.topic:
+            try:
+                obj = json.loads(msg.payload.decode('utf-8'))
+                dispatcher.exec(obj)
+                client.publish(topic + "/done", json.dumps(obj))
+            except Exception as ex:
+                logging.exception("Invalid message format! %s" % msg.payload)
+                client.publish(topic + "/error",  json.dumps({'type': type(ex).__name__, 'error': str(ex)}))
+
+        if "game" in msg.topic:
+            global game, robot
+            logging.info("Reset game")
+            robot.reset()
+            game.reset()
 
 
     def on_disconnect(client, userdata, rc):

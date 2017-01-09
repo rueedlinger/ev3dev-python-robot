@@ -132,7 +132,6 @@ while True:
         command = {'command': 'right', 'args': [random.randint(0, 180)]}
         mqtt.publish(topic + "/process", json.dumps(command))
 
-    print(o)
 
 
 

@@ -1,6 +1,6 @@
 // Create a client instance
 var client = new Paho.MQTT.Client(location.hostname, Number(9001), "clientId");
-var first_position = true;
+var doUpdate = true;
 
 var max_x = 0;
 var max_y = 0;
@@ -27,6 +27,13 @@ function onConnectionLost(responseObject) {
   }
 }
 
+function reset(){
+    message = new Paho.MQTT.Message("reset");
+    message.destinationName = "game";
+    client.send(message);
+
+    doUpdate = true
+}
 
 function drawRobot(x, y, r, max_x, max_y) {
     var c = $("#robot_layer");
@@ -63,22 +70,21 @@ function getScore(points){
 }
 
 
+
 // called when a message arrives
 function onMessageArrived(message) {
 
     var c = $("#map_layer");
     var ctx = c[0].getContext('2d');
 
-
-
-
-
     var body = JSON.parse(message.payloadString)
     if (message.destinationName === 'robot/position') {
-        if(first_position) {
+        if(doUpdate) {
 
             ctx.canvas.height = body.world.y_max;
             ctx.canvas.width = body.world.x_max;
+
+            ctx.clearRect(0, 0, max_x, max_y);
 
             max_x = body.world.x_max;
             max_y = body.world.y_max;
@@ -112,7 +118,7 @@ function onMessageArrived(message) {
                 .append("<li>x min: 0 </li>")
                 .append("<li>y min: 0 </li>");
 
-            first_position = false;
+            doUpdate = false;
 
         } else {
             var points = body.points;

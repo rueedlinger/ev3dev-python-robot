@@ -43,7 +43,9 @@ class BasicTestSuite(unittest.TestCase):
         r = 7
 
         n = 80
+        print('a')
         g = api.Game(n_points=n, max_x=x, max_y=y)
+        print('d')
 
         self.assertEqual(len(g.points()), n)
 

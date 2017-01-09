@@ -38,6 +38,16 @@ class Robot:
         self.right_motor = right_motor
         self.left_motor = left_motor
 
+    def reset(self):
+        """
+        Resets the robot to the default state (right / left motor and gyro sesor)
+        :return:
+        """
+        self.right_motor.reset()
+        self.left_motor.reset()
+        self.gyro_sensor.mode = 'GYRO-ANG'
+        self.gyro_sensor.mode = 'GYRO-G&A'
+
     def forward(self, distance):
         """
         Move the robot forward by a given distance.

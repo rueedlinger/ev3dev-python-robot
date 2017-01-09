@@ -37,7 +37,7 @@ class Game:
     The game engine -  master of the points and score
     """
 
-    def __init__(self, n_points=50, radius=5, max_x=800, max_y=800):
+    def __init__(self, n_points=50, radius=5, max_x=800, max_y=800, radius_factor=10):
 
         self.__max_y = max_y
         self.__max_x = max_x
@@ -48,8 +48,12 @@ class Game:
         y_center = round(max_y / 2)
         self.__x_center = x_center
         self.__y_center = y_center
+        self.__radius_factor = radius_factor
 
-        self.__points = self.create_points(n_points, x_center, y_center)
+        self.__points = self.create_points(n_points, x_center, y_center, radius * radius_factor)
+
+    def reset(self):
+        self.__points = self.create_points(self.__n_points, self.__x_center, self.__y_center, self.__radius * self.__radius_factor)
 
     def points(self):
         return self.__points
@@ -71,16 +75,15 @@ class Game:
         y = random.randint(self.__radius * 2, self.__max_y - self.__radius * 2)
         return x, y
 
-    def create_points(self, n_points, x_center, y_center):
+    def create_points(self, n_points, x_center, y_center, factor):
 
         points = []
 
         for i in range(n_points):
 
             x, y = self.create_coordinate()
-            r = self.__radius * 10
 
-            while math.pow(x - round(x_center), 2) + math.pow(y - round(y_center), 2) < math.pow(r, 2):
+            while math.pow(x - round(x_center), 2) + math.pow(y - round(y_center), 2) < math.pow(factor, 2):
                 x, y = self.create_coordinate()
 
             points.append(Point(x=x, y=y, r=self.__radius))
@@ -95,6 +98,9 @@ class Game:
             if math.pow(x - p.x, 2) + math.pow(y - p.y, 2) < math.pow(distance, 2):
                 # robot has found the point
                 p.collected = True
+
+    def __str__(self):
+        return "points: %s, x: %s, y: %s, r: %s, radius factor: %s" % (self.__n_points, self.__max_x, self.__max_y, self.__radius, self.__radius_factor)
 
 
 
