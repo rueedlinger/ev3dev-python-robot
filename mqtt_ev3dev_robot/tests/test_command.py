@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 import unittest
 from .context import mqtt_ev3dev as api
 

@@ -3,6 +3,7 @@ import random
 import math
 import json
 
+
 class Point:
     """
     A point in the game world. A pint has a score which is

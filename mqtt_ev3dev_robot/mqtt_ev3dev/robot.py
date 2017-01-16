@@ -10,7 +10,6 @@ class Robot:
     """
 
     DEFAULT_SPEED = 200
-    TURN_SPEED = 100
 
     def __init__(self):
         """
@@ -37,6 +36,7 @@ class Robot:
         self.motors = [left_motor, right_motor]
         self.right_motor = right_motor
         self.left_motor = left_motor
+        self.speed = self.DEFAULT_SPEED
 
     def reset(self):
         """
@@ -47,6 +47,7 @@ class Robot:
         self.left_motor.reset()
         self.gyro_sensor.mode = 'GYRO-ANG'
         self.gyro_sensor.mode = 'GYRO-G&A'
+        self.speed = self.DEFAULT_SPEED
 
     def forward(self, distance):
         """
@@ -74,8 +75,8 @@ class Robot:
         :param angle: the angle in degrees.
         :return: None
         """
-        self.right_motor.speed_sp = -self.TURN_SPEED
-        self.left_motor.speed_sp = self.TURN_SPEED
+        self.right_motor.speed_sp = -self.speed
+        self.left_motor.speed_sp = self.speed
         self.right_motor.run_forever()
         self.left_motor.run_forever()
         moveto = self.gyro_sensor.value() + angle
@@ -92,8 +93,8 @@ class Robot:
         :param angle: the angle in degrees.
         :return: None
         """
-        self.right_motor.speed_sp = self.TURN_SPEED
-        self.left_motor.speed_sp = -self.TURN_SPEED
+        self.right_motor.speed_sp = self.speed
+        self.left_motor.speed_sp = -self.speed
         self.right_motor.run_forever()
         self.left_motor.run_forever()
         moveto = self.gyro_sensor.value() - angle
@@ -111,6 +112,15 @@ class Robot:
         """
         for m in self.motors:
             m.stop()
+
+    def speed(self, speed):
+        """
+        Set the robot speed to an integer value.
+        :param speed:
+        :return: None
+        """
+        for m in self.motors:
+            m.speed_sp = speed
 
     def state(self):
         """

@@ -143,5 +143,56 @@ class Simulator:
         return "x: %s, y: %s, angle: %s" % (self.__x, self.__y, self.__angle)
 
 
+class TimeDecorator:
+    """
+    Decorator for the Simulator, extends the Simulator with dimension time.
+    """
+    TACHO_COUNT_PER_TICK = 100
+
+    def __init__(self, simulator):
+        self.simulator = simulator
+        self.next = {'command': None, 'value': 0}
+
+    def __getattr__(self, name):
+        return getattr(self.simulator, name)
+
+    def forward(self, distance):
+        self.next['command'] = 'forward'
+
+        if distance <= self.TACHO_COUNT_PER_TICK:
+            self.simulator.forward(distance)
+            self.next['value'] = 0
+        else:
+            self.simulator.forward(self.TACHO_COUNT_PER_TICK)
+            self.next['value'] = distance - self.TACHO_COUNT_PER_TICK
+
+    def backward(self, distance):
+        self.next['command'] = 'backward'
+
+        if distance <= self.TACHO_COUNT_PER_TICK:
+            self.simulator.backward(distance)
+            self.next['value'] = 0
+        else:
+            self.simulator.backward(self.TACHO_COUNT_PER_TICK)
+            self.next['value'] = distance - self.TACHO_COUNT_PER_TICK
+
+    def reset(self):
+        self.next = {'command': None, 'value': 0}
+        self.simulator.reset()
+
+    def __str__(self):
+        return str(self.simulator)
+
+    def tick(self):
+
+        command = self.next['command']
+
+        if command == 'forward':
+            rest = self.next['value']
+            self.forward(rest)
+
+        if command == 'backward':
+            rest = self.next['value']
+            self.backward(rest)
 
 
