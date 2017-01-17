@@ -75,8 +75,8 @@ class Robot:
         :param angle: the angle in degrees.
         :return: None
         """
-        self.right_motor.speed_sp = -self.speed
-        self.left_motor.speed_sp = self.speed
+        self.right_motor.speed_sp = -round(self.speed / 2)
+        self.left_motor.speed_sp = round(self.speed / 2)
         self.right_motor.run_forever()
         self.left_motor.run_forever()
         moveto = self.gyro_sensor.value() + angle
@@ -93,8 +93,8 @@ class Robot:
         :param angle: the angle in degrees.
         :return: None
         """
-        self.right_motor.speed_sp = self.speed
-        self.left_motor.speed_sp = -self.speed
+        self.right_motor.speed_sp = round(self.speed / 2)
+        self.left_motor.speed_sp = -round(self.speed / 2)
         self.right_motor.run_forever()
         self.left_motor.run_forever()
         moveto = self.gyro_sensor.value() - angle
@@ -112,15 +112,6 @@ class Robot:
         """
         for m in self.motors:
             m.stop()
-
-    def speed(self, speed):
-        """
-        Set the robot speed to an integer value.
-        :param speed:
-        :return: None
-        """
-        for m in self.motors:
-            m.speed_sp = speed
 
     def state(self):
         """

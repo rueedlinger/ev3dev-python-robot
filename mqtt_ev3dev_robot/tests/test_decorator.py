@@ -72,30 +72,30 @@ class BasicTestSuite(unittest.TestCase):
 
         self.assertEqual(d.position(), start_pos)
         d.backward(350)
-        self.assertEqual(d.position(), (-50.0, 0.0, 15))
+        self.assertEqual(d.position(), (-1.0, 0.0, 15))
 
         d.tick()
-        self.assertEqual(d.position(), (-100.0, 0.0, 15))
+        self.assertEqual(d.position(), (-2.0, 0.0, 15))
 
         d.tick()
-        self.assertEqual(d.position(), (-150.0, 0.0, 15))
+        self.assertEqual(d.position(), (-3.0, 0.0, 15))
 
         d.tick()
-        self.assertEqual(d.position(), (-175.0, 0.0, 15))
+        self.assertEqual(d.position(), (-4.0, 0.0, 15))
 
         d.tick()
-        self.assertEqual(d.position(), (-175.0, 0.0, 15))
+        self.assertEqual(d.position(), (-5, 0.0, 15))
 
     def test_next_command(self):
-        d = api.TimeDecorator(api.Simulator())
+        d = api.TimeDecorator(api.Simulator(), speed=1000)
         start_pos = (0.0, 0.0, 15)
 
         self.assertEqual(d.position(), start_pos)
         d.forward(978)
 
-        self.assertEqual(d.next, {'command': 'forward', 'value': 878})
+        self.assertEqual(d.next, {'command': 'forward', 'value': 968})
         d.tick()
-        self.assertEqual(d.next, {'command': 'forward', 'value': 778})
+        self.assertEqual(d.next, {'command': 'forward', 'value': 958})
 
         d.forward(350)
         self.assertEqual(d.next, {'command': 'forward', 'value': 250})

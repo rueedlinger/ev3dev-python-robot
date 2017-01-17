@@ -7,6 +7,7 @@ import paho.mqtt.client as mqtt
 import time
 
 from simulator import Simulator
+from simulator import TimeDecorator
 from game import PointEncoder
 from command import CommandDispatcher
 from game import Game
@@ -43,7 +44,8 @@ if __name__ == "__main__":
     game = Game(n_points=50, radius=5, max_x=800, max_y=800, radius_factor=40)
     logging.info("Game: " + str(game))
 
-    robot = Simulator(x=game.center_x(), y=game.center_y(), r=15, angle=0)
+    robot = TimeDecorator(Simulator(x=game.center_x(), y=game.center_y(), r=15, angle=0))
+    #robot = Simulator(x=game.center_x(), y=game.center_y(), r=15, angle=0)
     logging.info("Robot: " + str(robot))
 
     dispatcher = CommandDispatcher(robot)
@@ -97,6 +99,7 @@ if __name__ == "__main__":
     while True:
 
         time.sleep(TIMEOUT_SEC)
+        robot.tick()
 
         mqtt.publish(topic + "/state", json.dumps(robot.state()))
 
