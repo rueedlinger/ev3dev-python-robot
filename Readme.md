@@ -6,7 +6,7 @@ your ev3dev self-driving robot.
 
 ## Get started
 Build the Robot as described in my Blog Post _'Programming LEGO MINDSTORMS EV3 with Python and ev3dev'_ http://to.predict.ch/hacking/2016/12/02/lego-mindstorms-with-python.html or follow the 
-instruction from robotsquare http://robotsquare.com/2013/10/01/education-ev3-45544-instruction/
+instruction from robotsquare (Educator Vehicle) http://robotsquare.com/2013/10/01/education-ev3-45544-instruction/
 
 Make sure that the motors are connected to the following ouput pins:
 
