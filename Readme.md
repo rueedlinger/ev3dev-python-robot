@@ -6,7 +6,7 @@ You can use these examples to get started with your *ev3dev* self-driving robot.
 
 ## Get started
 - First have a look at the *Getting Started with ev3dev* for how to use ev3dev https://www.ev3dev.org/docs/getting-started/
-- The examples uses the *python-ev3dev2* Python library which are already bundled with the ev3dev image. https://ev3dev-lang.readthedocs.io/projects/python-ev3dev/en/stable/
+- The examples uses the *python-ev3dev2* Python library which is are already bundled with the ev3dev image. https://ev3dev-lang.readthedocs.io/projects/python-ev3dev/en/stable/
 - For building the robot follow the instruction for the *Educator Vehicle* from robotsquare, http://robotsquare.com/2013/10/01/education-ev3-45544-instruction/
 
 Make sure that the motors are connected to the following ouput pins:
