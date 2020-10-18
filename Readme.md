@@ -35,7 +35,7 @@ Examples:
 
 ### Plain ev3dev robot
 
-[plain_ev3dev_robot](plain_ev3dev_robot) is a simple example for autonomous self driving robot. 
+[run_robot.py](run_robot.py) is a simple example for autonomous self driving robot. 
 Copy the example to the EV3 brick an make the _run.py_ script executable. 
 
 The example uses the following sensors:
@@ -46,7 +46,7 @@ The example uses the following sensors:
     
 ### IR ev3dev robot (Infrared Remote)
 
-[ir_ev3dev_robot](ir_ev3dev_robot)  is example how to controll your robot with a the infrared remote control.
+[run_robot_remote_control.py](run_robot_remote_control.py)  is example how to control your robot with a the infrared remote control.
 
 The example uses the following sensors:
 
