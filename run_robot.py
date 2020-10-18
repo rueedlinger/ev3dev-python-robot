@@ -5,13 +5,13 @@ import time
 import logging
 from random import randint
 
-from common.robot import Robot
+from robot import Robot
 
 # default sleep timeout in sec
 DEFAULT_SLEEP_TIMEOUT_IN_SEC = 0.1
 
 # default speed
-DEFAULT_SPEED = 200
+DEFAULT_SPEED = 300
 
 # default threshold distance
 DEFAULT_THRESHOLD_DISTANCE = 150
@@ -50,11 +50,11 @@ def main():
 
     # doing a cleanup action just before program ends
     # handle ctr+c and system exit
-    except (KeyboardInterrupt, SystemExit) as e:
+    except (KeyboardInterrupt, SystemExit):
         logging.exception("message")
 
     # handle exceptions
-    except Exception as e:
+    except Exception:
         logging.exception("message")
 
     finally:
