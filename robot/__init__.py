@@ -27,6 +27,7 @@ class Robot:
 
         self.right_motor = right_motor
         self.left_motor = left_motor
+        self.current_speed = 0
 
         try:
 
@@ -70,51 +71,57 @@ class Robot:
 
         if speed:
             self.set_speed(abs(speed))
-
-        for m in self.motors:
-            m.run_forever()
+        else:
+            self.set_speed(abs(self.current_speed))
 
     def backward(self, speed=None):
         
         if speed:
             self.set_speed(abs(speed) * -1)
-
-        for m in self.motors:
-            m.run_forever()
+        else:
+            self.set_speed(abs(self.current_speed) * -1)
 
     def brake(self):
+        self.current_speed = 0
         for m in self.motors:
             m.stop()
 
     def turn(self, degree=90):
 
-        if self.right_motor.speed_sp >= 0:
-
-            self.right_motor.speed_sp *= -1
+        
+        if degree >= 0:
+            self.right_motor.speed_sp = -100
+            self.left_motor.speed_sp = 100
             self.right_motor.run_forever()
+            self.left_motor.run_forever()
+
             angle = self.gyro_sensor.value() + degree
 
             while self.gyro_sensor.value() <= angle:
                 pass
-
-            self.right_motor.speed_sp *= -1
-            self.right_motor.run_forever()
 
         else:
-
-            self.left_motor.speed_sp *= -1
+            self.right_motor.speed_sp = 100
+            self.left_motor.speed_sp = -100
+            self.right_motor.run_forever()
             self.left_motor.run_forever()
+
             angle = self.gyro_sensor.value() + degree
 
-            while self.gyro_sensor.value() <= angle:
+            while self.gyro_sensor.value() >= angle:
                 pass
 
-            self.left_motor.speed_sp *= -1
-            self.left_motor.run_forever()
+        
+        self.set_speed(self.current_speed)
+
 
     def set_speed(self, speed):
+
+        self.current_speed = speed
+
         for m in self.motors:
             m.speed_sp = speed
+            m.run_forever()
 
         logging.debug('speed sp (right_motor): %s' % str(self.right_motor.speed_sp))
         logging.debug('speed sp (left_motor): %s' % str(self.left_motor.speed_sp))
